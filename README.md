@@ -53,6 +53,7 @@ The key-grammar defines how structured JSON records are addressed, phase-bound, 
 | `greeting-bank.key-grammar.jsonl` | Greeting seeds as key-grammar records |
 | `english-dictionary.definition-relations.key-grammar.jsonl` | Relation records derived from dictionary definitions |
 | `english-dictionary.key-grammar.meta.json` | Metadata for the dictionary corpus (stats, authority, channel) |
+| `english-dictionary.lexicon.key-grammar.jsonl.zip` | Full English lexicon corpus — 9.3 MB compressed, 122 MB unzipped. **Unzip before use:** `unzip english-dictionary.lexicon.key-grammar.jsonl.zip` |
 | `advisor-bootstrap.json` | Advisor delegation seed data (raw) |
 | `advisor-bootstrap.key-grammar.jsonl` | Advisor seeds as key-grammar records |
 | `plan-bootstrap.json` | Plan/proposal seed data (raw) |
