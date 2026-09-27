@@ -1,0 +1,27 @@
+{
+  "aiml_runtime_ebnf_file": "data\\grammar\\aiml.runtime-grammar.ebnf",
+  "dictionary_path": "data/gram/english-dictionary.jsonl",
+  "generated_epoch_ms": "1790475239898",
+  "gram_classes": [
+    "unigram",
+    "bigram",
+    "trigram",
+    "quadgram",
+    "coarse_gram",
+    "function_gram",
+    "tool_gram"
+  ],
+  "gram_roles": [
+    "semantic_address",
+    "context_association",
+    "structural_shape",
+    "function_word_structure",
+    "tool_dispatch_intent"
+  ],
+  "key_grammar_runtime_ebnf_file": "data\\grammar\\key-grammar-json.runtime.ebnf",
+  "lexicon_file": "data\\grammar\\english-dictionary.lexicon.key-grammar.jsonl",
+  "lexicon_rows": 18830,
+  "relation_rows": 99274,
+  "relations_file": "data\\grammar\\english-dictionary.definition-relations.key-grammar.jsonl",
+  "schema": "key.grammar.dictionary.v2"
+}

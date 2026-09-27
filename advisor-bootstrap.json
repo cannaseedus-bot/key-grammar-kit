@@ -1,0 +1,23 @@
+{
+  "schema": "key.grammar.advisor_bootstrap.v1",
+  "description": "Authored request-to-expert bootstrap. The generated AIML is a projection; the runtime track and router remain authoritative.",
+  "track": "ADVISOR-µ",
+  "card": {
+    "id": "advisor",
+    "label": "Advisor",
+    "symbol": "⟁WIDGETCARD",
+    "fields": ["task", "target", "evidence", "gaps", "proposal", "authority", "next"],
+    "authority": "none"
+  },
+  "routes": [
+    {"pattern": "ADVISE MATH *", "prefix": "math:", "expert": "MATH-µ", "phase": "Yax", "next": "Sek"},
+    {"pattern": "ADVISE CODE *", "prefix": "code:", "expert": "coder", "phase": "Yax", "next": "Sek"},
+    {"pattern": "ADVISE RESEARCH *", "prefix": "search:", "expert": "WEB-RESEARCH-µ", "phase": "Yax", "next": "Ch'en"},
+    {"pattern": "ADVISE EXPLAIN *", "prefix": "explain:", "expert": "reasoner", "phase": "Yax", "next": "Sek"},
+    {"pattern": "ADVISE PLAN *", "prefix": "plan:", "expert": "Coordinator", "phase": "Wo", "next": "Ch'en"},
+    {"pattern": "ADVISE *", "prefix": "plan:", "expert": "Coordinator", "phase": "Wo", "next": "Ch'en"},
+    {"pattern": "I NEED HELP WITH *", "prefix": "plan:", "expert": "Coordinator", "phase": "Wo", "next": "Ch'en"},
+    {"pattern": "HELP ME WITH *", "prefix": "plan:", "expert": "Coordinator", "phase": "Wo", "next": "Ch'en"},
+    {"pattern": "WHO CAN HELP WITH *", "prefix": "plan:", "expert": "Coordinator", "phase": "Wo", "next": "Ch'en"}
+  ]
+}

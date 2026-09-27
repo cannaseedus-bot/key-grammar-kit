@@ -1,0 +1,21 @@
+{
+  "schema": "key.grammar.plan_bootstrap.v1",
+  "description": "Authored planning bootstrap. Generated AIML is a projection; PLAN-µ and its task card remain authoritative.",
+  "track": "PLAN-µ",
+  "card": {
+    "id": "plan",
+    "label": "Plan",
+    "symbol": "⟁WIDGETCARD",
+    "fields": ["goal", "tasks", "dependencies", "owner", "phase", "status", "next"],
+    "tasks_field": "tasks",
+    "active_verbs": ["refine", "edit", "verify", "accept", "execute", "pause"],
+    "authority": "none"
+  },
+  "routes": [
+    {"pattern": "MAKE A PLAN FOR *", "phase": "Wo", "next": "Yax"},
+    {"pattern": "BREAK DOWN *", "phase": "Wo", "next": "Yax"},
+    {"pattern": "ROADMAP *", "phase": "Wo", "next": "Yax"},
+    {"pattern": "TASKS FOR *", "phase": "Wo", "next": "Yax"},
+    {"pattern": "PLAN *", "phase": "Wo", "next": "Yax"}
+  ]
+}

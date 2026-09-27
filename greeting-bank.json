@@ -1,0 +1,75 @@
+{
+  "schema": "key.grammar.greeting_bank.v1",
+  "description": "Phase-supplied greeting bank for the KHANARY adaptive salutation system. Each K'UHUL phase supplies a different type of greeting; 'kind' marks how the runtime uses it. The runtime rotates greetings through the phases, mirrors greetings the user repeats (reactionary), adapts to learned lingo, and synthesizes its own associative words in the same mannerisms. Placeholders: {cue}/{Cue} = top learned lingo cue, {greeting}/{Greeting} = the user's current greeting, {last} = last observed greeting, {turns} = salutation turn count, {lingo_count} = learned lingo cue count, {blend}/{Blend} = runtime-synthesized associative word. Templates whose placeholders cannot be filled from what has actually been learned are skipped.",
+  "greetings": [
+    {
+      "phase": "Pop",
+      "kind": "canonical",
+      "templates": [
+        "Hello. I'm online and ready to help.",
+        "Hey — good to see you. What are we working on?",
+        "Hi there. Systems nominal; ready when you are."
+      ]
+    },
+    {
+      "phase": "Wo",
+      "kind": "learned",
+      "templates": [
+        "Hey {cue} — picked that up from you; good to be talking again.",
+        "{Cue}! Good to see you again. I keep learning how you talk.",
+        "Alright {cue}, I remembered that one. Let's go."
+      ]
+    },
+    {
+      "phase": "Yax",
+      "kind": "associative",
+      "templates": [
+        "Hey {cue}, good to see you again.",
+        "Yo {cue}, ready when you are.",
+        "What's good {cue}? I'm online and locked in."
+      ]
+    },
+    {
+      "phase": "Sek",
+      "kind": "status",
+      "templates": [
+        "Reporting in: {turns} greetings so far and I'm adapting to how you talk. Ready when you are.",
+        "{turns} salutations logged. Each one teaches me your mannerisms. Ready."
+      ]
+    },
+    {
+      "phase": "Ch'en",
+      "kind": "confirmatory",
+      "templates": [
+        "Style check: {lingo_count} lingo cues learned so far. {Greeting}!",
+        "{lingo_count} of your words are in my style profile now. {Greeting} back at you."
+      ]
+    },
+    {
+      "phase": "Xul",
+      "kind": "recall",
+      "templates": [
+        "Last time you greeted me with \"{last}\". Memory holds — hello again.",
+        "I remembered your last greeting: \"{last}\". Same energy today."
+      ]
+    },
+    {
+      "phase": "Pop.reactive_mirror",
+      "kind": "reactionary",
+      "templates": [
+        "{Greeting} right back at you — I remembered that one.",
+        "Back at you: {greeting}. I adapt to your lingo.",
+        "{Greeting} yourself — that's your greeting, and it's mine now too."
+      ]
+    },
+    {
+      "phase": "Yax.synthesized_greeting",
+      "kind": "synthesized",
+      "templates": [
+        "{Blend} vibes today — I made that word up from yours.",
+        "Calling it {blend} now — your words, my spin.",
+        "{Blend} o'clock. Two of your cues walked into my vocabulary and that fell out."
+      ]
+    }
+  ]
+}
