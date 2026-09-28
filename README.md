@@ -47,6 +47,7 @@ The key-grammar defines how structured JSON records are addressed, phase-bound, 
 | File | Description |
 |------|-------------|
 | `key-grammar-json.runtime.ebnf` | Full EBNF v3 with SC-1..SC-13 side constraints |
+| `tools/grammar/mini_transpilers.py` | Source-side validator/transpiler referenced by the EBNF side constraints; defaults to the KHANARY.CPP repo layout. |
 | `control-flow.key-grammar.jsonl` | XCFE control operator bindings — one record per operator |
 | `control-capability-gaps.jsonl` | Capability gap records for Ch'en miss classification |
 | `greeting-bank.json` | Greeting/response seed data (raw) |
