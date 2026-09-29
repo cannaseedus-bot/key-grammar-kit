@@ -191,6 +191,36 @@ intent:joke
 
 The joke frame changes the admission policy. `bankers` and `bank:financial_institution` can remain as wordplay evidence, but they do not override the selected blood-repository sense. The pun works because the surface answer carries two readings while the semantic route records which sense solved the prompt.
 
+`vampire` is also an association-field activator, not only a literal monster key. It contributes both a literal entity and a contextual field:
+
+```text
+vampire
+  -> literal:vampire
+  -> assoc:blood_sucker
+  -> assoc:blood
+  -> assoc:parasite
+  -> assoc:extractor
+  -> assoc:banker
+  -> assoc:lawyer
+  -> assoc:politician
+```
+
+Those associations are candidate evidence. They widen the humor/metaphor field and can support alternate jokes, but they do not automatically become the selected answer. For this prompt, the selected bridge is:
+
+```text
+fast_food_restaurant + vampire + blood + bank
+  -> bank:blood_repository
+  -> surface answer "Blood Bank"
+```
+
+The rule is:
+
+```text
+surface token -> literal key + association field
+association field -> candidate sense keys
+joke frame -> selects punchline-compatible path
+```
+
 This is the same polysemy rule with an extra frame:
 
 ```text

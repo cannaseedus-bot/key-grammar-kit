@@ -97,6 +97,22 @@ A joke request can deliberately route across senses. In the vampire example, the
 
 The joke frame admits a pun bridge: `vampire + blood_sucker + food_source` supplies blood semantics, `physical_location + restaurant + bank` supplies place semantics, and `joke + bankers` keeps the financial surface available as wordplay without selecting it as the primary sense.
 
+`vampire` also acts as a context activator. It contributes a literal entity and an association field:
+
+```text
+vampire
+  -> literal:vampire
+  -> assoc:blood_sucker
+  -> assoc:blood
+  -> assoc:parasite
+  -> assoc:extractor
+  -> assoc:banker
+  -> assoc:lawyer
+  -> assoc:politician
+```
+
+Those associations enter the candidate field. They can support alternate jokes or metaphor routes, but the joke frame still selects the punchline-compatible path for this prompt: `fast_food_restaurant + vampire + blood + bank -> Blood Bank`.
+
 ## Symbolic key score
 
 A resolved key can be scored before any vector or tensor projection by combining its static intrinsic weight with horizontal neighborhood evidence from its declared key-book:
