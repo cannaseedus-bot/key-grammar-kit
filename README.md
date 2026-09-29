@@ -55,6 +55,35 @@ F = vector space | coordinate field | SVG-3D geometry | tensor layout | GML grap
 Invariant: **Manifest authority > Graph realization > Geometric projection**. Meaning is not coordinates. A projection can represent, measure, search, render, or execute against semantic authority, but it cannot redefine it. Symbolic key scoring also belongs before geometry: `S(k) = W_k + H_N(k)` can operate directly over manifest topology.
 
 
+
+## Surface forms and sense keys
+
+A surface word is not automatically the final semantic key. A word like `bank` enters as a surface form, then context, ngrams, aliases, intents, and classes resolve it into one or more candidate sense keys.
+
+```text
+surface:bank
+  -> bank:river_edge
+  -> bank:financial_institution
+  -> bank:seed_repository
+  -> bank:central_bank
+  -> bank:nearby_financial_search
+  -> bank:blood_repository
+```
+
+Example sense-key names below are illustrative canonical-style keys; a production manifest can use the registry names adopted by the runtime.
+
+Examples:
+
+| Surface evidence | Candidate sense key | Notes |
+|------------------|---------------------|-------|
+| `river bank` | `bank:river_edge` | landform / geography neighborhood |
+| `seed bank` | `bank:seed_repository` | biological/genetic storage neighborhood |
+| `central bank` | `bank:central_bank` | monetary authority neighborhood |
+| `bank closest to me` | `bank:nearby_financial_search` | financial institution plus location/search intent |
+| `blood bank` | `bank:blood_repository` | medical storage neighborhood |
+
+After disambiguation, the selected sense key receives the normal treatment: `Book(k)=N(k)`, symbolic score `S(k)=W_k+H_N(k)`, and phase face `Theta(k)`. This keeps polysemy out of the static key identity: `bank` is a surface handle; `bank:river_edge` and `bank:financial_institution` are different semantic addresses.
+
 ## Symbolic key score
 
 A resolved key can be scored before any vector or tensor projection by combining its static intrinsic weight with horizontal neighborhood evidence from its declared key-book:
@@ -150,7 +179,7 @@ Horizontal asks: what is connected to this meaning? Vertical asks: what else can
 
 The key-grammar layer is the Semantic Fold Compression Grammar and includes manifest-backed key-books. A **key-word** is the singular resolved address/evidence unit. A **key-book** is the plural declared neighborhood that stores many key-words and their expansion edges. This avoids confusing KHANARY key-books with generic graph-theory book terminology.
 
-The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes, aliases, relation tags, phase markers, and operator tags. `resolve_manifest` / `resolve_manifest_key` is the shared traversal engine; each manifest supplies the domain grammar.
+The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes, aliases, relation tags, phase markers, operator tags, and disambiguated sense keys. `resolve_manifest` / `resolve_manifest_key` is the shared traversal engine; each manifest supplies the domain grammar.
 
 | Key-book | Role |
 |----------|------|

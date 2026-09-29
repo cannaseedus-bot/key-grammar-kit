@@ -116,6 +116,54 @@ meaning != coordinates
 A projection can represent, measure, search, render, or execute against semantic authority. It cannot redefine semantic authority. The symbolic score `S(k) = W_k + H_N(k)` operates at the manifest/topology layer before projection.
 
 
+
+## Surface forms, polysemy, and sense keys
+
+A surface form is not the same thing as a semantic key. The raw token `bank` is an ambiguous handle. It must be resolved through context, ngrams, aliases, intents, relation tags, and class evidence before the runtime treats it as a stable semantic address.
+
+```text
+surface:bank
+  -> bank:river_edge
+  -> bank:financial_institution
+  -> bank:seed_repository
+  -> bank:central_bank
+  -> bank:nearby_financial_search
+  -> bank:blood_repository
+```
+
+The names below are illustrative canonical-style sense keys. A production manifest can adopt these names or bind the same senses under its registered naming convention. The ngram or context often supplies the deciding evidence:
+
+| Evidence | Sense key | Semantic neighborhood |
+|----------|-----------|-----------------------|
+| `river bank` | `bank:river_edge` | river, shore, landform, erosion, water-edge |
+| `seed bank` | `bank:seed_repository` | seed, vault, biodiversity, preservation, germplasm |
+| `central bank` | `bank:central_bank` | monetary policy, currency, reserves, interest rates |
+| `bank closest to me` | `bank:nearby_financial_search` | financial institution, local search, geolocation, route |
+| `blood bank` | `bank:blood_repository` | blood, donor, storage, transfusion, medical inventory |
+
+Formal route:
+
+```text
+surface token / ngram / context
+  -> candidate sense keys
+  -> selected semantic key k
+  -> Book(k) = N(k)
+  -> S(k) = W_k + H_N(k)
+  -> phase face Theta(k)
+```
+
+This matters because horizontal and vertical semantics operate after sense selection. `bank:river_edge` and `bank:financial_institution` should not share one key just because their surface spelling is identical. They may share a surface alias, but they unfold into different key-books.
+
+The rule is:
+
+```text
+surface form != final semantic key
+same spelling != same Book(k)
+polysemy resolves before horizontal N and vertical Theta
+```
+
+Location or action language can create intent-shaped sense keys. `bank closest to me` is not merely the financial-institution sense; it also activates search/locality constraints such as `intent:local_search`, `constraint:nearby`, and `context:geolocation`.
+
 ## Static weight and horizontal neighborhood evidence
 
 A key carries static intrinsic weight plus horizontal evidence from its declared neighborhood:
@@ -284,9 +332,9 @@ This is the type signature for the manifest layer.
 
 ## Bag of Key-Words
 
-The runtime input is closer to a **Bag of Key-Words** than a plain bag of words.
+The runtime input is closer to a **Bag of Key-Words** than a plain bag of words, and ambiguous surface forms must first resolve into candidate sense keys.
 
-A natural-language query produces tokens and ngrams. Each token/ngram can map to one or more key-words. Those key-words are the semantic evidence units used by later ranking, graph planning, and fold admission.
+A natural-language query produces tokens and ngrams. Each token/ngram can map to one or more candidate sense keys, and each selected sense key is a key-word. Those key-words are the semantic evidence units used by later ranking, graph planning, and fold admission.
 
 ```text
 query text
@@ -489,4 +537,4 @@ The grammar layer locks the vocabulary model, but four specs still need explicit
 
 ## One-line contract
 
-`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce a Bag of Key-Words; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
+`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
