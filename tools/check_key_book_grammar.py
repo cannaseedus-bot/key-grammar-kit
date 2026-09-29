@@ -19,6 +19,8 @@ REQUIRED = [
     ROOT / 'data/schema/episode.contract.json',
     ROOT / 'data/grammar/fold_graph.xml',
     ROOT / 'docs/key-grammar-book-algebra.md',
+    ROOT / 'joke-bootstrap.json',
+    ROOT / 'joke-bootstrap.key-grammar.jsonl',
     ROOT / 'src/kuhul/fold_delta.h',
     ROOT / 'src/kuhul/fold_direction.h',
     ROOT / 'src/kuhul/fold_direction.cpp',
@@ -93,7 +95,7 @@ else:
             errors.append(f'⟁KEYGRAMMAR missing {token}')
 
 words = books.get('words', {})
-for key in ['hello', 'hi', 'help', 'cause', 'manifest', 'key_references', 'ngram_references', 'MANIFEST:', '@manifest_query']:
+for key in ['hello', 'hi', 'help', 'cause', 'manifest', 'key_references', 'ngram_references', 'MANIFEST:', '@manifest_query', 'JOKE:', '@joke', 'joke', 'pun', 'wordplay']:
     if key not in words:
         errors.append(f'words manifest missing {key}')
 if words.get('hello') and 'intent:salutation' not in words['hello']:
@@ -119,6 +121,51 @@ if kuhul.get('direction_store:impl'):
     for token in ['class:DirectionStore', 'retrieval:R=Jaccard(query_caps,capability_key)', 'wire:direction_store.ingest(delta)@factory_advisor_commit']:
         if token not in kuhul['direction_store:impl']:
             errors.append(f'direction_store:impl missing {token}')
+
+for key in ['JOKE-µ', 'joke.aiml', 'joke:frame', 'joke:pun_bridge', 'joke:answer_surface']:
+    if key not in books.get('aiml', {}):
+        errors.append(f'aiml manifest missing {key}')
+if 'JOKE-µ' in books.get('aiml', {}):
+    for token in ['not:joke-authoring', 'first-class-µ-track', 'peer:PLAN-µ', 'peer:ADVISOR-µ', 'availability:all-domains']:
+        if token not in books['aiml']['JOKE-µ']:
+            errors.append(f'JOKE-µ must declare {token}')
+
+joke_bootstrap = load_json(ROOT / 'joke-bootstrap.json') if (ROOT / 'joke-bootstrap.json').exists() else None
+if joke_bootstrap:
+    if joke_bootstrap.get('track') != 'JOKE-µ':
+        errors.append('joke bootstrap track must be JOKE-µ')
+    if joke_bootstrap.get('first_class') is not True or joke_bootstrap.get('availability') != 'all_domains':
+        errors.append('joke bootstrap must declare first-class all-domain availability')
+    for peer in ['PLAN-µ', 'ADVISOR-µ']:
+        if peer not in joke_bootstrap.get('peers', []):
+            errors.append(f'joke bootstrap missing peer {peer}')
+    policy = joke_bootstrap.get('policy', {})
+    for token in ['pun_bridge', 'surface_ambiguity', 'multiple_senses_active', 'punchline_compression']:
+        if token not in policy.get('admit', []):
+            errors.append(f'joke bootstrap policy missing {token}')
+    if policy.get('not_purpose') != 'telling jokes as freeform generation':
+        errors.append('joke bootstrap must declare not_purpose')
+    routes = joke_bootstrap.get('routes', [])
+    if len(routes) < 5:
+        errors.append('joke bootstrap should declare at least five routes')
+
+joke_jsonl = ROOT / 'joke-bootstrap.key-grammar.jsonl'
+if joke_jsonl.exists():
+    rows = []
+    for line_no, line in enumerate(joke_jsonl.read_text(encoding='utf-8').splitlines(), 1):
+        if not line.strip():
+            continue
+        try:
+            rows.append(json.loads(line))
+        except Exception as exc:
+            errors.append(f'joke-bootstrap.key-grammar.jsonl line {line_no} invalid JSON: {exc}')
+    if len(rows) < 5:
+        errors.append('joke-bootstrap.key-grammar.jsonl should contain at least five records')
+    for row in rows:
+        if row.get('class') != 'JOKE' or 'JOKE-µ' not in row.get('definition', ''):
+            errors.append(f'joke JSONL row missing JOKE class/definition: {row.get("key")}')
+        if 'first-class reusable humor-frame routing track' not in row.get('semantic_note', ''):
+            errors.append(f'joke JSONL row missing semantic note: {row.get("key")}')
 
 math_isa = load_json(ROOT / 'data/schema/math-isa.json') if (ROOT / 'data/schema/math-isa.json').exists() else None
 if math_isa:
@@ -213,6 +260,19 @@ for token in [
     'answer: Blood Bank',
     'What do you call a fast food restaurant for a vampire?',
     'Joke and pun sense routing',
+    'JOKE route surfaces are routing policy',
+    'JOKE-µ != freeform joke authoring',
+    'JOKE-µ = first-class humor-frame semantic routing',
+    'first-class reusable µ-track like `PLAN-µ` and `ADVISOR-µ`',
+    'available to all domains',
+    'joke.aiml = surface trigger projection',
+    'joke key-book = admissible ambiguity/pun moves',
+    'JOKE track = runtime policy application',
+    'allow:pun_bridge',
+    'keep:multiple_senses_active',
+    'admit:surface_ambiguity',
+    'prefer:punchline_compatible_sense_selection',
+    'preserve:selected_semantic_key + surface_answer_text',
     'fast_food_restaurant + vampire + blood + bank',
     'joke frame -> selects punchline-compatible path',
     'association field -> candidate sense keys',

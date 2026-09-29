@@ -191,6 +191,31 @@ intent:joke
 
 The joke frame changes the admission policy. `bankers` and `bank:financial_institution` can remain as wordplay evidence, but they do not override the selected blood-repository sense. The pun works because the surface answer carries two readings while the semantic route records which sense solved the prompt.
 
+### JOKE route surfaces are routing policy
+
+`JOKE-µ`, `joke.aiml`, joke key-word/key-book entries, and JOKE tracks are not primarily about telling jokes. `JOKE-µ` is a first-class reusable µ-track like `PLAN-µ` and `ADVISOR-µ`, available to all domains that need ambiguity permission, pun bridges, metaphor routing, or punchline-compatible sense collapse. They define a humor-frame routing policy. The policy changes which semantic moves are admissible while `intent:joke` is active.
+
+```text
+JOKE-µ != freeform joke authoring
+JOKE-µ = first-class humor-frame semantic routing
+joke.aiml = surface trigger projection
+joke key-book = admissible ambiguity/pun moves
+JOKE track = runtime policy application
+```
+
+The JOKE route therefore authorizes:
+
+```text
+intent:joke
+  -> allow:pun_bridge
+  -> keep:multiple_senses_active
+  -> admit:surface_ambiguity
+  -> prefer:punchline_compatible_sense_selection
+  -> preserve:selected_semantic_key + surface_answer_text
+```
+
+That is why the vampire examples work. The route does not just produce a funny sentence. It allows a temporary collision between the blood-repository sense and the financial-bank surface, then collapses the route to the semantic key that satisfies the action/frame constraints while rendering the pun surface.
+
 `vampire` is also an association-field activator, not only a literal monster key. It contributes both a literal entity and a contextual field:
 
 ```text
@@ -514,7 +539,7 @@ All of these manifest key-books share the same shape: `key-word -> expansion[]`.
 | `data/manifest/css.manifest.json` | Atomic style keys and composed UI/style blocks such as `⟁BGpanel`, `⟁CARD`, and `⟁WIDGETCARD`; also declares `⟁KEYGRAMMAR`. |
 | `data/manifest/folds.manifest.json` | Fold topology and activation channels: horizontal/vertical folds, association channels, syntax books, and fold graph parsing. |
 | `data/manifest/gml.manifest.json` | Graph topology and ABI references: Q3/Q4 hypercubes, CCC_n graphs, projection/gyro schemas, validators, and GML loader keys. |
-| `data/manifest/aiml.manifest.json` | AIML structural keys: pattern, template, wildcard, topic, that, graph, relation, and advisor entries. |
+| `data/manifest/aiml.manifest.json` | AIML structural keys: pattern, template, wildcard, topic, that, graph, relation, advisor entries, and JOKE humor-frame routing entries. |
 | `data/manifest/eliza.manifest.json` | ELIZA operator pack: 16 operators mapped to relation families and phase hints. |
 | `data/schema/math-isa.json` | Math-domain GraphPlan ISA extension plugged into `L_A`; it declares closed-world math ops and resolver requirements. |
 
@@ -694,4 +719,4 @@ The grammar layer locks the vocabulary model, but four specs still need explicit
 
 ## One-line contract
 
-`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; joke frames can keep pun senses active while selecting a primary semantic key; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
+`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; JOKE-µ and joke frames can keep pun senses active while selecting a primary semantic key; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.

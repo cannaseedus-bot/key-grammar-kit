@@ -97,6 +97,21 @@ A joke request can deliberately route across senses. In the vampire example, the
 
 The joke frame admits a pun bridge: `vampire + blood_sucker + food_source` supplies blood semantics, `physical_location + restaurant + bank` supplies place semantics, and `joke + bankers` keeps the financial surface available as wordplay without selecting it as the primary sense.
 
+### JOKE route surfaces are routing policy
+
+`JOKE-µ`, `joke.aiml`, joke key-word/key-book entries, and JOKE tracks are not primarily about telling jokes. `JOKE-µ` is a first-class reusable µ-track like `PLAN-µ` and `ADVISOR-µ`, available for all domains that need humor-frame routing. Its job is to change what moves are legal when `intent:joke` is active: keep multiple senses alive, admit pun bridges, allow surface ambiguity, and choose a punchline-compatible semantic key while preserving the rendered answer text.
+
+```text
+intent:joke
+  -> route:JOKE-µ
+  -> policy:ambiguity_permission
+  -> policy:pun_bridge_allowed
+  -> policy:punchline_compatible_sense_selection
+  -> selected semantic key + surface answer
+```
+
+That means `joke.aiml` is a trigger projection, not the source of meaning. The joke key-book declares the admissible semantic moves; the JOKE track applies those moves to the query-local fold topology.
+
 `vampire` also acts as a context activator. It contributes a literal entity and an association field:
 
 ```text
@@ -277,7 +292,7 @@ The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes
 | `data/manifest/css.manifest.json` | Atomic CSS/UI key-book; declares `⟁KEYGRAMMAR`, style atoms, composed blocks, components, layouts, and app-level UI keys. |
 | `data/manifest/folds.manifest.json` | K'UHUL phase-fold/topology key-book: activation fold, horizontal/vertical phase folds, association channels, and syntax books. |
 | `data/manifest/gml.manifest.json` | Graph topology key-book: GML loader, validators, Q3/Q4 hypercubes, CCC_n graphs, projection ABI, and gyro ABI. |
-| `data/manifest/aiml.manifest.json` | AIML structure key-book: pattern, template, wildcard, topic, that, graph, relation, and advisor routing keys. |
+| `data/manifest/aiml.manifest.json` | AIML structure key-book: pattern, template, wildcard, topic, that, graph, relation, advisor routing keys, and JOKE humor-frame routing keys. |
 | `data/manifest/eliza.manifest.json` | ELIZA operator key-book: 16 ELIZA-1 operators mapped to relation families and phases. |
 | `data/manifest/kuhul.manifest.json` | Runtime authority key-book linking fold deltas, DirectionStore, episode contracts, fold graph laws, and key-query routes. |
 | `data/schema/math-isa.json` | Math GraphPlan ISA extension for manifest-driven `L_A` lowering. |
@@ -309,6 +324,8 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 | `english-dictionary.lexicon.key-grammar.jsonl.zip` | Full English lexicon corpus — 9.3 MB compressed, 122 MB unzipped. **Unzip before use:** `unzip english-dictionary.lexicon.key-grammar.jsonl.zip` |
 | `advisor-bootstrap.json` | Advisor delegation seed data (raw) |
 | `advisor-bootstrap.key-grammar.jsonl` | Advisor seeds as key-grammar records |
+| `joke-bootstrap.json` | JOKE humor-frame routing seed data (raw); declares ambiguity permission and pun-bridge policy, not freeform joke authorship. |
+| `joke-bootstrap.key-grammar.jsonl` | JOKE route seeds as key-grammar records. |
 | `plan-bootstrap.json` | Plan/proposal seed data (raw) |
 | `plan-bootstrap.key-grammar.jsonl` | Plan seeds as key-grammar records |
 

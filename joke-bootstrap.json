@@ -1,0 +1,75 @@
+{
+  "schema": "key.grammar.joke_bootstrap.v1",
+  "description": "Authored first-class humor-frame routing bootstrap. Generated AIML is a projection; JOKE-µ and the JOKE track remain authoritative. Like PLAN-µ and ADVISOR-µ, JOKE-µ is a reusable µ-track for all domains that need ambiguity permission, pun bridges, metaphor routing, or punchline-compatible sense collapse; it is not a generic joke-authoring module.",
+  "track": "JOKE-µ",
+  "card": {
+    "id": "joke-frame",
+    "label": "JOKE frame",
+    "symbol": "⟁WIDGETCARD",
+    "fields": [
+      "prompt",
+      "surface_form",
+      "association_field",
+      "action_frame",
+      "candidate_senses",
+      "selected_semantic_key",
+      "punchline",
+      "authority",
+      "next"
+    ],
+    "authority": "none"
+  },
+  "policy": {
+    "purpose": "first-class humor-frame semantic routing",
+    "not_purpose": "telling jokes as freeform generation",
+    "admit": [
+      "pun_bridge",
+      "surface_ambiguity",
+      "multiple_senses_active",
+      "frame_collision",
+      "punchline_compression"
+    ],
+    "preserve": [
+      "selected_semantic_key",
+      "surface_answer_text"
+    ]
+  },
+  "routes": [
+    {
+      "pattern": "JOKE *",
+      "frame": "humor_frame",
+      "phase": "Yax",
+      "next": "Ch'en"
+    },
+    {
+      "pattern": "TELL ME A JOKE ABOUT *",
+      "frame": "humor_frame",
+      "phase": "Yax",
+      "next": "Ch'en"
+    },
+    {
+      "pattern": "WHAT DO YOU CALL *",
+      "frame": "pun_naming_frame",
+      "phase": "Yax",
+      "next": "Ch'en"
+    },
+    {
+      "pattern": "WHERE DOES * MAKE * FROM",
+      "frame": "action_source_frame",
+      "phase": "Yax",
+      "next": "Ch'en"
+    },
+    {
+      "pattern": "PUN *",
+      "frame": "pun_bridge",
+      "phase": "Yax",
+      "next": "Ch'en"
+    }
+  ],
+  "first_class": true,
+  "peers": [
+    "PLAN-µ",
+    "ADVISOR-µ"
+  ],
+  "availability": "all_domains"
+}

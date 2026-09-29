@@ -15,4 +15,9 @@
   ,"advisor:research": ["WEB-RESEARCH-µ", "search:", "card_view=true"]
   ,"advisor:explain": ["reasoner", "explain:", "card_view=true"]
   ,"advisor:plan": ["Coordinator", "plan:", "card_view=true"]
+  ,"JOKE-µ": ["joke.aiml", "first-class-µ-track", "peer:PLAN-µ", "peer:ADVISOR-µ", "availability:all-domains", "humor-frame-routing", "ambiguity-permission", "pun-bridge", "punchline-compatible-sense-selection", "not:joke-authoring", "phase:Yax", "phase:Ch'en"]
+  ,"joke.aiml": ["JOKE-µ", "intent:joke", "pattern:WHAT_DO_YOU_CALL_*", "pattern:WHERE_DOES_*", "template:surface-answer", "projection:not-authority"]
+  ,"joke:frame": ["intent:joke", "allow:pun_bridge", "keep:multiple_senses_active", "admit:surface_ambiguity", "preserve:semantic_key_and_surface_answer"]
+  ,"joke:pun_bridge": ["surface-ambiguity", "candidate-sense-field", "punchline-compatible-collapse", "phase:Yax"]
+  ,"joke:answer_surface": ["rendered-template", "not:semantic-authority", "phase:Xul"]
 }
