@@ -113,6 +113,28 @@ vampire
 
 Those associations enter the candidate field. They can support alternate jokes or metaphor routes, but the joke frame still selects the punchline-compatible path for this prompt: `fast_food_restaurant + vampire + blood + bank -> Blood Bank`.
 
+### Recursive fold-unfold
+
+This is also an example of folds unfolding to new folds that unfold. A resolved key can unfold into a fold address; that fold can activate association keys that are themselves fold addresses; those child folds can unfold again as long as traversal remains bounded, cycle-aware, and phase-constrained.
+
+```text
+surface joke prompt
+  -> fold:joke_frame
+  -> fold:vampire_association_field
+       -> assoc:blood_sucker
+       -> assoc:banker
+       -> assoc:lawyer
+       -> assoc:politician
+  -> fold:bank_polysemy
+       -> bank:blood_repository
+       -> bank:financial_institution
+  -> fold:bank_blood_punchline
+       -> selected semantic key bank:blood_repository
+       -> surface answer "Blood Bank"
+```
+
+The important rule is that an expansion entry can be terminal evidence or a new fold address. Recursive unfold is therefore a controlled semantic expansion, not arbitrary recursion: Wo binds the candidate fold address, Yax selects which child folds may open, and Ch'en validates the selected semantic route before it is committed.
+
 ## Symbolic key score
 
 A resolved key can be scored before any vector or tensor projection by combining its static intrinsic weight with horizontal neighborhood evidence from its declared key-book:

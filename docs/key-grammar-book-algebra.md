@@ -229,6 +229,45 @@ surface joke prompt -> ngram evidence -> candidate sense keys -> selected semant
 
 A runtime should preserve both pieces: the selected `key-word` for semantic authority and the rendered `template`/answer text for user-facing humor.
 
+### Recursive fold-unfold
+
+This example also shows folds unfolding to new folds that unfold. In the compression grammar, a manifest expansion entry can terminate as evidence or point at another fold/key-book address. That means an unfold can produce child fold addresses, and those child folds can unfold in turn.
+
+```text
+key-word -> Fold(k)
+Fold(k) -> {terminal evidence, child fold addresses}
+child fold address -> Fold(child)
+```
+
+Depth-indexed expansion makes the boundary explicit:
+
+```text
+Unfold_0(k) = Book(k)
+Unfold_{d+1}(k) = union(Book(u) for u in Unfold_d(k) if u is fold-address)
+```
+
+A runtime must keep recursive unfold bounded, cycle-aware, and phase-constrained. The traversal should remember opened fold addresses, enforce a maximum depth, and apply the current C6 phase authority before opening another book.
+
+The vampire joke route is a concrete recursive unfold:
+
+```text
+fold:joke_prompt
+  -> fold:vampire_context
+       -> assoc:blood_sucker
+       -> assoc:blood
+       -> assoc:banker
+       -> assoc:lawyer
+       -> assoc:politician
+  -> fold:bank_polysemy
+       -> bank:blood_repository
+       -> bank:financial_institution
+  -> fold:blood_bank_punchline
+       -> selected semantic key bank:blood_repository
+       -> surface answer "Blood Bank"
+```
+
+This preserves the layer boundary: the key-grammar declares which fold addresses can open; the Semantic Fold Graph Topology realizes the unfolded route; a geometric field can later project it, but the projection does not decide which fold was semantically authorized.
+
 ## Static weight and horizontal neighborhood evidence
 
 A key carries static intrinsic weight plus horizontal evidence from its declared neighborhood:
