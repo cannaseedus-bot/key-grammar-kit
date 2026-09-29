@@ -47,6 +47,107 @@ Semantic Fold Compression Grammar =
 
 So this kit should be classified as a grammar package first. `fold_graph.xml` and SGSFG are the topology view produced by expansion. `field.xml`, vector metadata, GML, SVG-3D, and tensors are geometric or runtime projections over that topology.
 
+
+## Core algebra and authority
+
+The JSON key-grammar is not the graph itself. It is the compressed symbolic source from which the graph is unfolded.
+
+A manifest key is a compressed semantic address:
+
+```text
+k -> Book(k)
+Book(k) = N(k) = {k_1, k_2, ..., k_n}
+```
+
+`⟁CAUSE` is a key-word/address. Its manifest value is the key-book containing the declared semantic neighborhood behind that address. A query produces a Bag of Key-Words:
+
+```text
+B_Q = {k_1, k_2, ..., k_m}
+```
+
+`resolve_manifest` performs the unfold:
+
+```text
+U(B_Q) = union(Book(k) for k in B_Q)
+```
+
+The unfold is phase-constrained. Resolved objects can carry C6 authorization:
+
+```text
+theta(k) in {Pop, Wo, Yax, Sek, Ch'en, Xul}
+U(B_Q, theta) -> G_Q
+```
+
+`G_Q` is the query-local Semantic Fold Graph Topology. The manifest/key-book system supplies the semantic adjacency dimension, while C6 supplies phase position. The runtime graph can be read as a product graph:
+
+```text
+G_runtime = G_semantic □ G_phase
+v = (k, theta)
+```
+
+A horizontal fold changes semantic position while preserving phase:
+
+```text
+(k_i, theta) -> (k_j, theta)
+```
+
+A vertical fold preserves semantic identity while changing phase:
+
+```text
+(k, theta_i) -> (k, theta_j)
+```
+
+The JSON grammar defines the material from which the semantic axis is constructed. It does not collapse the semantic axis, phase axis, and geometric projection into one object.
+
+Geometry comes after topology. `field.xml`, GML, SVG-3D, vectors, tensors, and GPU field layouts do not define the meaning of a key-word such as `⟁CAUSE`. They project the already-resolved topology:
+
+```text
+P: G_Q -> F
+F = vector space | coordinate field | SVG-3D geometry | tensor layout | GML graph | GPU field representation
+```
+
+Invariant:
+
+```text
+Manifest authority > Graph realization > Geometric projection
+meaning != coordinates
+```
+
+A projection can represent, measure, search, render, or execute against semantic authority. It cannot redefine semantic authority.
+
+## FoldDelta is semantic, not vectorial
+
+`FoldDelta != VecDelta`. A `FoldDelta` describes verified semantic displacement in the unfolded topology:
+
+```text
+Delta_F: v_a -> v_b
+```
+
+A vector delta is only the displacement produced by one projection:
+
+```text
+Delta_vec = P(v_b) - P(v_a)
+```
+
+Therefore:
+
+```text
+Delta_F is semantic
+Delta_vec is representational
+```
+
+`DirectionStore` can accumulate verified semantic displacements without requiring a specific embedding, vector, tensor, or geometry engine. Projection indexes can accelerate retrieval, but they are not the semantic source of truth.
+
+## Layer responsibilities
+
+| Layer | Fundamental object | Operation | Authority |
+|-------|--------------------|-----------|-----------|
+| Semantic Fold Compression Grammar | key-word / key-book | declare + unfold | manifest authority |
+| Semantic Fold Graph Topology | node / edge / fold | traverse | graph realization |
+| Geometric Node Field | vector / coordinate / tensor | project | representation only |
+
+Calling the manifests themselves the Semantic Fold Graph would collapse the compressed source layer into its unfolded graph realization. This kit keeps those stages separate.
+
 ## Terminology note: overloaded graph words
 
 `book` and `fold` are common words in graph theory and graph-processing literature, so this kit uses qualified meanings.
@@ -293,4 +394,4 @@ The grammar layer locks the vocabulary model, but four specs still need explicit
 
 ## One-line contract
 
-`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the shared transpiler engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce a Bag of Key-Words, the manifest key-books declare how that bag expands, and DirectionStore guards the plural semantic-context boundary for verified fold directions.
+`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce a Bag of Key-Words; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.

@@ -23,6 +23,37 @@ Semantic Fold Compression Grammar
 
 Use the first name when describing this kit as a grammar package. Use the second when describing the unfolded graph. Use the third when describing a vector/field/tensor projection of that graph.
 
+
+## Core algebra
+
+The JSON key-grammar is not the graph itself. It is the compressed symbolic source from which the query-local graph is unfolded.
+
+```text
+k -> Book(k)
+Book(k) = N(k) = {k1, k2, ..., kn}
+B_Q = {k1, k2, ..., km}
+U(B_Q) = union(Book(k) for k in B_Q)
+U(B_Q, theta) -> G_Q
+```
+
+`B_Q` is the runtime **Bag of Key-Words** extracted from tokens, ngrams, aliases, relation tags, phase markers, classes, and XCFE operators. `resolve_manifest` performs the unfold, but the unfold is phase-constrained: resolved objects can carry C6 authority `theta(k) in {Pop, Wo, Yax, Sek, Ch'en, Xul}`.
+
+The runtime graph can be read as a product graph:
+
+```text
+G_runtime = G_semantic □ G_phase
+v = (k, theta)
+```
+
+A horizontal fold changes semantic position while preserving phase. A vertical fold preserves semantic identity while changing phase. Geometry comes after that as a projection:
+
+```text
+P: G_Q -> F
+F = vector space | coordinate field | SVG-3D geometry | tensor layout | GML graph | GPU field representation
+```
+
+Invariant: **Manifest authority > Graph realization > Geometric projection**. Meaning is not coordinates. A projection can represent, measure, search, render, or execute against semantic authority, but it cannot redefine it.
+
 ## Key record types
 
 | Type | Key prefix | Phase | Description |
@@ -96,7 +127,7 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 | `src/kuhul/fold_direction.h` | Reference C++ boundary for `DirectionStore` and derived `FoldDirection`. |
 | `src/kuhul/fold_direction.cpp` | Current DirectionStore membership/retrieval implementation: GOOD gate, `micronaut_id` grouping, and Jaccard capability retrieval. |
 | `tools/check_key_book_grammar.py` | Dependency-free validator for manifest key-book shape, `⟁KEYGRAMMAR`, conditionals, ELIZA operator pack, math ISA, and DirectionStore semantic boundary. |
-| `docs/key-grammar-book-algebra.md` | Formal key-book/key-word algebra spec: manifests as declared neighborhoods, Bag of Key-Words, phase traversal, manifest-driven `L_A`, and `FoldDelta`/`DirectionStore`/`FoldDirection` cardinalities. |
+| `docs/key-grammar-book-algebra.md` | Formal Semantic Fold Compression Grammar spec: manifests as compressed semantic addresses, Bag of Key-Words algebra, phase-constrained unfold into graph topology, projection authority boundaries, manifest-driven `L_A`, and `FoldDelta`/`DirectionStore`/`FoldDirection` cardinalities. |
 | `control-flow.key-grammar.jsonl` | XCFE control operator bindings — one record per operator |
 | `control-capability-gaps.jsonl` | Capability gap records for Ch'en miss classification |
 | `greeting-bank.json` | Greeting/response seed data (raw) |
