@@ -52,7 +52,60 @@ P: G_Q -> F
 F = vector space | coordinate field | SVG-3D geometry | tensor layout | GML graph | GPU field representation
 ```
 
-Invariant: **Manifest authority > Graph realization > Geometric projection**. Meaning is not coordinates. A projection can represent, measure, search, render, or execute against semantic authority, but it cannot redefine it.
+Invariant: **Manifest authority > Graph realization > Geometric projection**. Meaning is not coordinates. A projection can represent, measure, search, render, or execute against semantic authority, but it cannot redefine it. Symbolic key scoring also belongs before geometry: `S(k) = W_k + H_N(k)` can operate directly over manifest topology.
+
+
+## Symbolic key score
+
+A resolved key can be scored before any vector or tensor projection by combining its static intrinsic weight with horizontal neighborhood evidence from its declared key-book:
+
+```text
+S(k) = W_k + H_N(k)
+H_N(k) = sum(W_u * R(k, u) for u in N(k))
+Book(k) = N(k)
+```
+
+`W_k` is the static/canonical weight attached to the key. `H_N(k)` is the evidence contributed by horizontally traversing the declared neighborhood behind the key. `R(k, u)` can be symbolic at this layer, such as relation-family match, phase compatibility, manifest edge type, or declared association strength. A geometric projection may later provide richer similarity, but it is not required for the basic key-book score.
+
+The compressed primitive is:
+
+```text
+Key = Static Weight + Horizontal N
+```
+
+Vertical phase movement is separate. Horizontal evidence stays within the current phase position; vertical folds move the resolved semantic state through C6 phase authority and expose alternate phase semantics for the same key.
+
+
+## Horizontal and vertical semantics
+
+A resolved node has two coordinates:
+
+```text
+v = (k, theta)
+```
+
+Horizontal movement explores related semantics in the key-book while preserving phase:
+
+```text
+(k, theta) -> (k_prime, theta)
+(k, theta) -> (N(k), theta)
+```
+
+Vertical movement keeps the key fixed and changes the phase-semantic interpretation of that same key:
+
+```text
+(k, theta_i) -> (k, theta_j)
+```
+
+Phase is therefore more than execution timing. It is the semantic face through which the same key is interpreted: Pop may read `CAUSE` as trigger, Wo as condition, Yax as candidate, Sek as operation, Ch'en as observed relation, and Xul as collapsed meaning.
+
+The resolved semantic state is:
+
+```text
+Semantic state = W(k) + N(k) + Theta(k)
+```
+
+Horizontal asks: what is connected to this meaning? Vertical asks: what else can this same thing mean under another phase?
 
 ## Key record types
 
@@ -127,7 +180,7 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 | `src/kuhul/fold_direction.h` | Reference C++ boundary for `DirectionStore` and derived `FoldDirection`. |
 | `src/kuhul/fold_direction.cpp` | Current DirectionStore membership/retrieval implementation: GOOD gate, `micronaut_id` grouping, and Jaccard capability retrieval. |
 | `tools/check_key_book_grammar.py` | Dependency-free validator for manifest key-book shape, `⟁KEYGRAMMAR`, conditionals, ELIZA operator pack, math ISA, and DirectionStore semantic boundary. |
-| `docs/key-grammar-book-algebra.md` | Formal Semantic Fold Compression Grammar spec: manifests as compressed semantic addresses, Bag of Key-Words algebra, phase-constrained unfold into graph topology, projection authority boundaries, manifest-driven `L_A`, and `FoldDelta`/`DirectionStore`/`FoldDirection` cardinalities. |
+| `docs/key-grammar-book-algebra.md` | Formal Semantic Fold Compression Grammar spec: manifests as compressed semantic addresses, Bag of Key-Words algebra, symbolic key scoring, phase-constrained unfold into graph topology, projection authority boundaries, manifest-driven `L_A`, and `FoldDelta`/`DirectionStore`/`FoldDirection` cardinalities. |
 | `control-flow.key-grammar.jsonl` | XCFE control operator bindings — one record per operator |
 | `control-capability-gaps.jsonl` | Capability gap records for Ch'en miss classification |
 | `greeting-bank.json` | Greeting/response seed data (raw) |

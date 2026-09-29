@@ -113,7 +113,102 @@ Manifest authority > Graph realization > Geometric projection
 meaning != coordinates
 ```
 
-A projection can represent, measure, search, render, or execute against semantic authority. It cannot redefine semantic authority.
+A projection can represent, measure, search, render, or execute against semantic authority. It cannot redefine semantic authority. The symbolic score `S(k) = W_k + H_N(k)` operates at the manifest/topology layer before projection.
+
+
+## Static weight and horizontal neighborhood evidence
+
+A key carries static intrinsic weight plus horizontal evidence from its declared neighborhood:
+
+```text
+S(k) = W_k + H_N(k)
+```
+
+Since `Book(k) = N(k)`, the horizontal contribution can be written as:
+
+```text
+H_N(k) = sum(W_u * R(k, u) for u in N(k))
+S(k) = W_k + sum(W_u * R(k, u) for u in N(k))
+```
+
+`W_k` is the static or canonical weight attached to the key. `H_N(k)` is what the key-book contributes in the current semantic context by traversing declared same-phase neighbors.
+
+```text
+              N(k)
+       -------+-------
+       v      v      v
+      k1     k2     k3
+       \      |      /
+        horizontal evidence
+               v
+        [ k | static W(k) ]
+               v
+          combined S(k)
+```
+
+This calculation is symbolic. It does not require a vector space. `N(k)` comes directly from the manifest topology, and `R(k, u)` may be supplied by relation-family match, declared edge type, phase compatibility, association strength, or another symbolic relevance provider. Geometry, tensors, or embeddings may later provide richer `R(k, u)`, but they are projections over the semantic topology rather than the source of the score.
+
+The compressed primitive is:
+
+```text
+Key = Static Weight + Horizontal N
+```
+
+Vertical phase movement is a separate operation over the resolved semantic state. Horizontal evidence answers what the current key-book contributes within the current phase. Vertical fold movement answers which alternate phase-semantic face of the same key may receive or transform that state next.
+
+
+## Horizontal neighborhood and vertical phase semantics
+
+Horizontal and vertical movements answer different semantic questions.
+
+```text
+Horizontal N = related semantics
+Vertical phase = alternate semantics of the same key
+```
+
+A resolved node has two coordinates:
+
+```text
+v = (k, theta)
+```
+
+The horizontal operation explores the key-book while preserving phase:
+
+```text
+(k, theta) -> (N(k), theta)
+(k, theta) -> (k_prime, theta)
+```
+
+This keeps the same phase and moves to neighboring concepts. It asks: what is connected to this meaning?
+
+The vertical operation keeps the key fixed and changes phase:
+
+```text
+(k, theta_i) -> (k, theta_j)
+```
+
+This changes the semantic face through which the same key is interpreted. It asks: what else can this same thing mean under another phase?
+
+For a key such as `CAUSE`, the phase stack can be read as alternate semantics of the same compressed address:
+
+```text
+Pop    : CAUSE as trigger
+Wo     : CAUSE as condition
+Yax    : CAUSE as candidate
+Sek    : CAUSE as operation
+Ch'en  : CAUSE as observed relation
+Xul    : CAUSE as collapsed meaning
+```
+
+Phase is therefore not merely execution timing. It is part of semantic interpretation.
+
+The semantic state can be summarized as:
+
+```text
+Semantic state = W(k) + N(k) + Theta(k)
+```
+
+`W(k)` is static identity/weight. `N(k)` supplies horizontal contextual semantics. `Theta(k)` supplies alternate phase-semantic interpretation for the same key.
 
 ## FoldDelta is semantic, not vectorial
 
@@ -142,8 +237,8 @@ Delta_vec is representational
 
 | Layer | Fundamental object | Operation | Authority |
 |-------|--------------------|-----------|-----------|
-| Semantic Fold Compression Grammar | key-word / key-book | declare + unfold | manifest authority |
-| Semantic Fold Graph Topology | node / edge / fold | traverse | graph realization |
+| Semantic Fold Compression Grammar | key-word / key-book | declare + unfold + symbolic score | manifest authority |
+| Semantic Fold Graph Topology | node / edge / fold / phase-face | traverse horizontal N and vertical Theta | graph realization |
 | Geometric Node Field | vector / coordinate / tensor | project | representation only |
 
 Calling the manifests themselves the Semantic Fold Graph would collapse the compressed source layer into its unfolded graph realization. This kit keeps those stages separate.
@@ -394,4 +489,4 @@ The grammar layer locks the vocabulary model, but four specs still need explicit
 
 ## One-line contract
 
-`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce a Bag of Key-Words; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
+`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce a Bag of Key-Words; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
