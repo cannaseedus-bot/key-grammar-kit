@@ -1,0 +1,159 @@
+{
+  "schema": "semantic-tracks.v1",
+  "id": "JOKE-µ",
+  "label": "JOKE first-class humor-frame routing",
+  "description": "First-class reusable µ-track for humor-frame routing, ambiguity permission, delivery-frame folds, pun bridges, metaphor routing, and punchline-compatible sense collapse. It does not perform freeform joke authorship.",
+  "first_class": true,
+  "peers": [
+    "PLAN-µ",
+    "ADVISOR-µ"
+  ],
+  "availability": "all_domains",
+  "source_manifest": "data/manifest/joke.manifest.json",
+  "surface_projection": "joke.aiml",
+  "governs": [
+    "intent:joke",
+    "frame:delivery",
+    "frame:joke_setup",
+    "frame:timed_delivery",
+    "frame:collapse",
+    "frame:subverted",
+    "joke:pun_bridge",
+    "joke:answer_surface"
+  ],
+  "capabilities": [
+    "ambiguity_permission",
+    "pun_bridge_allowed",
+    "delivery_frame_routing",
+    "schema_overlap_resolution",
+    "surface_alias_filtering",
+    "punchline_compatible_sense_selection",
+    "collapse_verification",
+    "subverted_collapse_routing"
+  ],
+  "folds": [
+    {
+      "id": "frame:joke_setup",
+      "beat": 1,
+      "role": "setup",
+      "phases": [
+        "Pop"
+      ],
+      "responsibility": "Open the premise/frame without selecting a surface topic as the domain."
+    },
+    {
+      "id": "frame:timed_delivery",
+      "beat": 2,
+      "role": "offer",
+      "phases": [
+        "Wo",
+        "Yax"
+      ],
+      "responsibility": "Bind context and select the expected route while preserving role structure."
+    },
+    {
+      "id": "frame:collapse",
+      "beat": 3,
+      "role": "commit_or_collapse",
+      "phases": [
+        "Sek",
+        "Ch'en"
+      ],
+      "responsibility": "Execute the resolution and verify structural closure."
+    },
+    {
+      "id": "frame:subverted",
+      "beat": 3,
+      "role": "declared_subversion",
+      "phases": [
+        "Ch'en"
+      ],
+      "responsibility": "Treat anti-jokes, meta-jokes, and bait-and-switch endings as declared variants, not failures."
+    }
+  ],
+  "aliases": [
+    {
+      "surface": "wind-up",
+      "maps_to": "frame:joke_setup",
+      "overlay": "baseball",
+      "domain_selected": false
+    },
+    {
+      "surface": "pitch",
+      "maps_to": "frame:timed_delivery",
+      "overlay": "baseball",
+      "domain_selected": false
+    },
+    {
+      "surface": "swing",
+      "maps_to": "frame:collapse",
+      "overlay": "baseball",
+      "domain_selected": false
+    }
+  ],
+  "boundary_rules": [
+    {
+      "id": "frames_declared_not_inferred",
+      "rule": "Frames are declared, not inferred from token co-occurrence."
+    },
+    {
+      "id": "beats_phase_typed",
+      "rule": "Beats are phase-typed before they are accepted as folds."
+    },
+    {
+      "id": "roles_schema_bound_not_token_bound",
+      "rule": "Roles bind to schema slots; surface tokens only fill or alias those slots."
+    },
+    {
+      "id": "collapse_must_be_verified",
+      "rule": "Ch'en verifies resolved, subverted, or failed collapse structurally."
+    },
+    {
+      "id": "subversion_declared_variant",
+      "rule": "Subversion is a declared variant, not an exception."
+    },
+    {
+      "id": "no_promotion_from_token_association_to_frame",
+      "rule": "Frequent token associations do not become frames without manifest declaration."
+    }
+  ],
+  "phase_route": [
+    {
+      "phase": "Pop",
+      "operation": "detect opener/setup candidate"
+    },
+    {
+      "phase": "Wo",
+      "operation": "bind role slots and surface aliases"
+    },
+    {
+      "phase": "Yax",
+      "operation": "select declared frame route"
+    },
+    {
+      "phase": "Sek",
+      "operation": "execute collapse or subversion path"
+    },
+    {
+      "phase": "Ch'en",
+      "operation": "verify structural closure"
+    },
+    {
+      "phase": "Xul",
+      "operation": "commit selected semantic key plus rendered surface"
+    }
+  ],
+  "sandbox": {
+    "can": [
+      "keep multiple senses active inside JOKE policy",
+      "map declared aliases to frame roles",
+      "select punchline-compatible semantic keys",
+      "preserve surface answer text separately from semantic key"
+    ],
+    "cannot": [
+      "promote raw token co-occurrence into a frame",
+      "treat analogy overlay as selected domain without frame evidence",
+      "override manifest-declared role boundaries"
+    ]
+  }
+}

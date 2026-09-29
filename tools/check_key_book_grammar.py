@@ -10,6 +10,7 @@ MANIFESTS = {
     'folds': ROOT / 'data/manifest/folds.manifest.json',
     'gml': ROOT / 'data/manifest/gml.manifest.json',
     'aiml': ROOT / 'data/manifest/aiml.manifest.json',
+    'joke': ROOT / 'data/manifest/joke.manifest.json',
     'eliza': ROOT / 'data/manifest/eliza.manifest.json',
     'kuhul': ROOT / 'data/manifest/kuhul.manifest.json',
 }
@@ -21,6 +22,7 @@ REQUIRED = [
     ROOT / 'docs/key-grammar-book-algebra.md',
     ROOT / 'joke-bootstrap.json',
     ROOT / 'joke-bootstrap.key-grammar.jsonl',
+    ROOT / 'data/tracks/JOKE-u.semantic-tracks.v1.json',
     ROOT / 'src/kuhul/fold_delta.h',
     ROOT / 'src/kuhul/fold_direction.h',
     ROOT / 'src/kuhul/fold_direction.cpp',
@@ -125,6 +127,18 @@ if kuhul.get('direction_store:impl'):
 for key in ['JOKE-µ', 'joke.aiml', 'joke:frame', 'joke:pun_bridge', 'joke:answer_surface']:
     if key not in books.get('aiml', {}):
         errors.append(f'aiml manifest missing {key}')
+
+joke_book = books.get('joke', {})
+for key in ['JOKE-µ', 'joke:keygrammar', 'frame:delivery', 'frame:joke_setup', 'frame:timed_delivery', 'frame:collapse', 'frame:subverted', 'alias:wind-up', 'alias:pitch', 'alias:swing', 'boundary:declared_frames', 'collapse:verify']:
+    if key not in joke_book:
+        errors.append(f'joke manifest missing {key}')
+if joke_book.get('boundary:declared_frames'):
+    for token in ['rule:frames_declared_not_inferred', 'rule:beats_phase_typed', 'rule:roles_schema_bound_not_token_bound', 'rule:collapse_must_be_verified', 'rule:subversion_declared_variant', 'rule:no_promotion_from_token_association_to_frame']:
+        if token not in joke_book['boundary:declared_frames']:
+            errors.append(f'joke boundary missing {token}')
+for alias_key, target in [('alias:wind-up', 'maps-to:frame:joke_setup'), ('alias:pitch', 'maps-to:frame:timed_delivery'), ('alias:swing', 'maps-to:frame:collapse')]:
+    if joke_book.get(alias_key) and target not in joke_book[alias_key]:
+        errors.append(f'joke alias {alias_key} missing {target}')
 if 'JOKE-µ' in books.get('aiml', {}):
     for token in ['not:joke-authoring', 'first-class-µ-track', 'peer:PLAN-µ', 'peer:ADVISOR-µ', 'availability:all-domains']:
         if token not in books['aiml']['JOKE-µ']:
@@ -146,8 +160,13 @@ if joke_bootstrap:
     if policy.get('not_purpose') != 'telling jokes as freeform generation':
         errors.append('joke bootstrap must declare not_purpose')
     routes = joke_bootstrap.get('routes', [])
-    if len(routes) < 5:
-        errors.append('joke bootstrap should declare at least five routes')
+    if len(routes) < 6:
+        errors.append('joke bootstrap should declare at least six routes')
+    if not any(route.get('frame') == 'delivery_frame' for route in routes):
+        errors.append('joke bootstrap must declare delivery_frame route')
+    delivery = policy.get('delivery_frame', {})
+    if delivery.get('manifest') != 'data/manifest/joke.manifest.json' or delivery.get('track') != 'data/tracks/JOKE-u.semantic-tracks.v1.json':
+        errors.append('joke bootstrap delivery_frame must link manifest and track')
 
 joke_jsonl = ROOT / 'joke-bootstrap.key-grammar.jsonl'
 if joke_jsonl.exists():
@@ -159,13 +178,37 @@ if joke_jsonl.exists():
             rows.append(json.loads(line))
         except Exception as exc:
             errors.append(f'joke-bootstrap.key-grammar.jsonl line {line_no} invalid JSON: {exc}')
-    if len(rows) < 5:
-        errors.append('joke-bootstrap.key-grammar.jsonl should contain at least five records')
+    if len(rows) < 6:
+        errors.append('joke-bootstrap.key-grammar.jsonl should contain at least six records')
     for row in rows:
         if row.get('class') != 'JOKE' or 'JOKE-µ' not in row.get('definition', ''):
             errors.append(f'joke JSONL row missing JOKE class/definition: {row.get("key")}')
         if 'first-class reusable humor-frame routing track' not in row.get('semantic_note', ''):
             errors.append(f'joke JSONL row missing semantic note: {row.get("key")}')
+
+
+joke_track = load_json(ROOT / 'data/tracks/JOKE-u.semantic-tracks.v1.json') if (ROOT / 'data/tracks/JOKE-u.semantic-tracks.v1.json').exists() else None
+if joke_track:
+    if joke_track.get('id') != 'JOKE-µ' or joke_track.get('first_class') is not True:
+        errors.append('JOKE track must be first-class JOKE-µ')
+    for peer in ['PLAN-µ', 'ADVISOR-µ']:
+        if peer not in joke_track.get('peers', []):
+            errors.append(f'JOKE track missing peer {peer}')
+    for governed in ['intent:joke', 'frame:delivery', 'frame:joke_setup', 'frame:timed_delivery', 'frame:collapse', 'frame:subverted']:
+        if governed not in joke_track.get('governs', []):
+            errors.append(f'JOKE track missing governs {governed}')
+    fold_ids = {fold.get('id') for fold in joke_track.get('folds', [])}
+    for fold_id in ['frame:joke_setup', 'frame:timed_delivery', 'frame:collapse', 'frame:subverted']:
+        if fold_id not in fold_ids:
+            errors.append(f'JOKE track missing fold {fold_id}')
+    boundary_ids = {rule.get('id') for rule in joke_track.get('boundary_rules', [])}
+    for boundary_id in ['frames_declared_not_inferred', 'beats_phase_typed', 'roles_schema_bound_not_token_bound', 'collapse_must_be_verified', 'subversion_declared_variant', 'no_promotion_from_token_association_to_frame']:
+        if boundary_id not in boundary_ids:
+            errors.append(f'JOKE track missing boundary {boundary_id}')
+    alias_map = {a.get('surface'): a.get('maps_to') for a in joke_track.get('aliases', [])}
+    for surface, target in [('wind-up', 'frame:joke_setup'), ('pitch', 'frame:timed_delivery'), ('swing', 'frame:collapse')]:
+        if alias_map.get(surface) != target:
+            errors.append(f'JOKE track alias {surface} must map to {target}')
 
 math_isa = load_json(ROOT / 'data/schema/math-isa.json') if (ROOT / 'data/schema/math-isa.json').exists() else None
 if math_isa:
@@ -268,6 +311,20 @@ for token in [
     'joke.aiml = surface trigger projection',
     'joke key-book = admissible ambiguity/pun moves',
     'JOKE track = runtime policy application',
+    'Delivery-frame fold boundary rules',
+    'data/manifest/joke.manifest.json',
+    'data/tracks/JOKE-u.semantic-tracks.v1.json',
+    'wind-up -> frame:joke_setup',
+    'pitch   -> frame:timed_delivery',
+    'swing   -> frame:collapse',
+    'surface alias != selected domain',
+    'Frames are declared, not inferred.',
+    'Beats are phase-typed.',
+    'Roles are schema-bound, not token-bound.',
+    'Collapse must be verified.',
+    'Subversion is a declared variant.',
+    'No promotion from token-association to frame.',
+    'declared structure, variable surface, phases as the contract',
     'allow:pun_bridge',
     'keep:multiple_senses_active',
     'admit:surface_ambiguity',

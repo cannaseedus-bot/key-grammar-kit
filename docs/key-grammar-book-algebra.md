@@ -216,6 +216,45 @@ intent:joke
 
 That is why the vampire examples work. The route does not just produce a funny sentence. It allows a temporary collision between the blood-repository sense and the financial-bank surface, then collapses the route to the semantic key that satisfies the action/frame constraints while rendering the pun surface.
 
+### Delivery-frame fold boundary rules
+
+`data/manifest/joke.manifest.json` declares the delivery-frame fold. `data/tracks/JOKE-u.semantic-tracks.v1.json` binds that declaration to the first-class JOKE-µ runtime track. This keeps the surface open while keeping the ISA closed: aliases can point at a frame, but only manifest-declared frames become folds.
+
+```text
+wind-up -> frame:joke_setup
+pitch   -> frame:timed_delivery
+swing   -> frame:collapse
+```
+
+The baseball vocabulary is therefore a surface alias, not the selected domain:
+
+```text
+surface alias != selected domain
+analogy overlay != semantic authority
+```
+
+The delivery-frame boundary rules are:
+
+```text
+Frames are declared, not inferred.
+Beats are phase-typed.
+Roles are schema-bound, not token-bound.
+Collapse must be verified.
+Subversion is a declared variant.
+No promotion from token-association to frame.
+```
+
+In phase terms:
+
+```text
+frame:joke_setup      -> role:setup              -> Pop
+frame:timed_delivery  -> role:offer              -> Wo/Yax
+frame:collapse        -> role:commit_or_collapse -> Sek/Ch'en
+frame:subverted       -> declared variant        -> Ch'en
+```
+
+The rule is the same as the rest of the grammar: declared structure, variable surface, phases as the contract.
+
 `vampire` is also an association-field activator, not only a literal monster key. It contributes both a literal entity and a contextual field:
 
 ```text
@@ -540,6 +579,7 @@ All of these manifest key-books share the same shape: `key-word -> expansion[]`.
 | `data/manifest/folds.manifest.json` | Fold topology and activation channels: horizontal/vertical folds, association channels, syntax books, and fold graph parsing. |
 | `data/manifest/gml.manifest.json` | Graph topology and ABI references: Q3/Q4 hypercubes, CCC_n graphs, projection/gyro schemas, validators, and GML loader keys. |
 | `data/manifest/aiml.manifest.json` | AIML structural keys: pattern, template, wildcard, topic, that, graph, relation, advisor entries, and JOKE humor-frame routing entries. |
+| `data/manifest/joke.manifest.json` | JOKE delivery-frame key-book: JOKE-µ authority, declared frame roles, surface aliases, phase-typed beats, subversion variants, and boundary rules. |
 | `data/manifest/eliza.manifest.json` | ELIZA operator pack: 16 operators mapped to relation families and phase hints. |
 | `data/schema/math-isa.json` | Math-domain GraphPlan ISA extension plugged into `L_A`; it declares closed-world math ops and resolver requirements. |
 
@@ -719,4 +759,4 @@ The grammar layer locks the vocabulary model, but four specs still need explicit
 
 ## One-line contract
 
-`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; JOKE-µ and joke frames can keep pun senses active while selecting a primary semantic key; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
+`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; JOKE-µ and joke frames can keep pun senses active while delivery-frame folds preserve structural roles before selecting a primary semantic key; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.

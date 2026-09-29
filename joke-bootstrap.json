@@ -32,7 +32,17 @@
     "preserve": [
       "selected_semantic_key",
       "surface_answer_text"
-    ]
+    ],
+    "delivery_frame": {
+      "roles": [
+        "setup",
+        "offer",
+        "commit_or_collapse"
+      ],
+      "manifest": "data/manifest/joke.manifest.json",
+      "track": "data/tracks/JOKE-u.semantic-tracks.v1.json",
+      "boundary": "declared structure, variable surface, phases as contract"
+    }
   },
   "routes": [
     {
@@ -62,6 +72,12 @@
     {
       "pattern": "PUN *",
       "frame": "pun_bridge",
+      "phase": "Yax",
+      "next": "Ch'en"
+    },
+    {
+      "pattern": "WIND UP PITCH SWING *",
+      "frame": "delivery_frame",
       "phase": "Yax",
       "next": "Ch'en"
     }

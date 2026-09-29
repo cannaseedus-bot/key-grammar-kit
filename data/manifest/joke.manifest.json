@@ -1,0 +1,111 @@
+{
+  "JOKE-µ": [
+    "track:JOKE-µ",
+    "first-class-µ-track",
+    "peer:PLAN-µ",
+    "peer:ADVISOR-µ",
+    "availability:all-domains",
+    "governs:intent:joke",
+    "governs:frame:delivery",
+    "capability:frame:joke_setup",
+    "capability:frame:timed_delivery",
+    "capability:frame:collapse",
+    "capability:frame:subverted",
+    "phase:Pop",
+    "phase:Wo",
+    "phase:Yax",
+    "phase:Sek",
+    "phase:Ch'en",
+    "phase:Xul"
+  ],
+  "joke:keygrammar": [
+    "key:address(book)",
+    "book:declared-delivery-frame-neighborhood",
+    "grammar:phase-typed-beat-traversal",
+    "frames:declared-not-inferred",
+    "tokens:surface-aliases-only",
+    "boundary:no-token-promotion"
+  ],
+  "frame:delivery": [
+    "frame:joke_setup",
+    "frame:timed_delivery",
+    "frame:collapse",
+    "frame:subverted",
+    "constraint:declared-frame-only",
+    "constraint:no-token-promotion",
+    "constraint:phase-typed-beats",
+    "constraint:collapse-verification",
+    "phase:Pop",
+    "phase:Wo",
+    "phase:Yax",
+    "phase:Sek",
+    "phase:Ch'en"
+  ],
+  "frame:joke_setup": [
+    "frame:opener",
+    "role:setup",
+    "beat:1",
+    "phase:Pop",
+    "schema-bound:not-token-bound"
+  ],
+  "frame:timed_delivery": [
+    "frame:cue",
+    "role:offer",
+    "role:temporal_progression",
+    "beat:2",
+    "phase:Wo",
+    "phase:Yax",
+    "schema-bound:not-token-bound"
+  ],
+  "frame:collapse": [
+    "frame:punchline",
+    "role:commit",
+    "role:resolution",
+    "beat:3",
+    "phase:Sek",
+    "phase:Ch'en",
+    "requires:collapse_verification"
+  ],
+  "frame:subverted": [
+    "frame:collapse",
+    "intent:break-expectation",
+    "anti-joke",
+    "meta-joke",
+    "bait-and-switch",
+    "declared-variant:not-failure",
+    "phase:Ch'en"
+  ],
+  "alias:wind-up": [
+    "surface:baseball",
+    "maps-to:frame:joke_setup",
+    "analogy-overlay:not-domain",
+    "surface alias != selected domain"
+  ],
+  "alias:pitch": [
+    "surface:baseball",
+    "maps-to:frame:timed_delivery",
+    "analogy-overlay:not-domain",
+    "surface alias != selected domain"
+  ],
+  "alias:swing": [
+    "surface:baseball",
+    "maps-to:frame:collapse",
+    "analogy-overlay:not-domain",
+    "surface alias != selected domain"
+  ],
+  "boundary:declared_frames": [
+    "rule:frames_declared_not_inferred",
+    "rule:beats_phase_typed",
+    "rule:roles_schema_bound_not_token_bound",
+    "rule:collapse_must_be_verified",
+    "rule:subversion_declared_variant",
+    "rule:no_promotion_from_token_association_to_frame"
+  ],
+  "collapse:verify": [
+    "phase:Ch'en",
+    "check:frame_resolved",
+    "check:frame_subverted",
+    "check:failed_to_land",
+    "structural-check:not-confidence-only"
+  ]
+}

@@ -112,6 +112,29 @@ intent:joke
 
 That means `joke.aiml` is a trigger projection, not the source of meaning. The joke key-book declares the admissible semantic moves; the JOKE track applies those moves to the query-local fold topology.
 
+### Delivery-frame fold boundary
+
+The delivery-frame fold is now declared in `data/manifest/joke.manifest.json` and governed by `data/tracks/JOKE-u.semantic-tracks.v1.json`. This keeps `wind-up`, `pitch`, and `swing` from collapsing into baseball token association.
+
+```text
+wind-up -> frame:joke_setup
+pitch   -> frame:timed_delivery
+swing   -> frame:collapse
+```
+
+Those aliases are an analogy overlay. They can point at the three-beat structure, but they do not select baseball as the semantic domain unless another declared frame authorizes that domain. JOKE-µ therefore reads the sequence as setup -> offer -> commit/collapse.
+
+Boundary rules:
+
+```text
+Frames are declared, not inferred.
+Beats are phase-typed.
+Roles are schema-bound, not token-bound.
+Collapse must be verified.
+Subversion is a declared variant.
+No promotion from token-association to frame.
+```
+
 `vampire` also acts as a context activator. It contributes a literal entity and an association field:
 
 ```text
@@ -293,6 +316,7 @@ The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes
 | `data/manifest/folds.manifest.json` | K'UHUL phase-fold/topology key-book: activation fold, horizontal/vertical phase folds, association channels, and syntax books. |
 | `data/manifest/gml.manifest.json` | Graph topology key-book: GML loader, validators, Q3/Q4 hypercubes, CCC_n graphs, projection ABI, and gyro ABI. |
 | `data/manifest/aiml.manifest.json` | AIML structure key-book: pattern, template, wildcard, topic, that, graph, relation, advisor routing keys, and JOKE humor-frame routing keys. |
+| `data/manifest/joke.manifest.json` | JOKE delivery-frame key-book: first-class JOKE-µ authority, declared frames, phase-typed beats, surface aliases, and boundary rules. |
 | `data/manifest/eliza.manifest.json` | ELIZA operator key-book: 16 ELIZA-1 operators mapped to relation families and phases. |
 | `data/manifest/kuhul.manifest.json` | Runtime authority key-book linking fold deltas, DirectionStore, episode contracts, fold graph laws, and key-query routes. |
 | `data/schema/math-isa.json` | Math GraphPlan ISA extension for manifest-driven `L_A` lowering. |
@@ -326,6 +350,7 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 | `advisor-bootstrap.key-grammar.jsonl` | Advisor seeds as key-grammar records |
 | `joke-bootstrap.json` | JOKE humor-frame routing seed data (raw); declares ambiguity permission and pun-bridge policy, not freeform joke authorship. |
 | `joke-bootstrap.key-grammar.jsonl` | JOKE route seeds as key-grammar records. |
+| `data/tracks/JOKE-u.semantic-tracks.v1.json` | First-class JOKE-µ semantic track definition: governs, capabilities, delivery-frame folds, aliases, phase route, and boundary rules. |
 | `plan-bootstrap.json` | Plan/proposal seed data (raw) |
 | `plan-bootstrap.key-grammar.jsonl` | Plan seeds as key-grammar records |
 
