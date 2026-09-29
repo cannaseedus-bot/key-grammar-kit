@@ -16,6 +16,37 @@ phase    : Wo binds, Yax selects, Ch'en validates
 `words.manifest.json` is the canonical vocabulary key-book: one plural book containing many singular key-words. It is not an AIML pattern file, a plain dictionary, or a word list. It is a key expansion grammar where each key-word maps to an ordered expansion array containing other keys, relation tags, phase hints, intent tags, domain operators, topology names, and typed declarative conditionals.
 
 
+
+## Layer classification
+
+This layer is best named **Semantic Fold Compression Grammar**. It is the source grammar that compresses semantic fold neighborhoods into manifest key-words and defines how those key-words unfold.
+
+```text
+Semantic Fold Compression Grammar
+  -> expands into Semantic Fold Graph Topology
+  -> projects into Geometric Node Field Class
+```
+
+The three names refer to different layers, not competing names for the same object.
+
+| Layer | Role | Canonical reading |
+|-------|------|-------------------|
+| Semantic Fold Compression Grammar | Source grammar. Declares compressed addresses and unfold rules. | `key-word -> key-book expansion -> semantic neighborhood` |
+| Semantic Fold Graph Topology | Expanded graph. Contains atoms, relations, books, candidates, folds, and phase edges. | `Book(k) = N(k)` and fold graph laws |
+| Geometric Node Field Class | Projection. Maps the graph into vectors, coordinates, fields, tensors, or render/runtime geometry. | `node/relation/fold graph -> vector field / tensor view` |
+
+Formal definition:
+
+```text
+Semantic Fold Compression Grammar =
+  manifest-backed key-book grammar
+  that compresses semantic fold neighborhoods into addressable key-words,
+  unfolds them into graph topology,
+  and permits geometric node-field projections without making geometry the source of truth.
+```
+
+So this kit should be classified as a grammar package first. `fold_graph.xml` and SGSFG are the topology view produced by expansion. `field.xml`, vector metadata, GML, SVG-3D, and tensors are geometric or runtime projections over that topology.
+
 ## Terminology note: overloaded graph words
 
 `book` and `fold` are common words in graph theory and graph-processing literature, so this kit uses qualified meanings.
@@ -70,8 +101,7 @@ query text
   -> GraphPlan / SGSFG / XCFE / K'UHUL projections
 ```
 
-This is why the key grammar is highly related to ngram types and classes. Ngrams are not only lexical spans; they are candidate handles into a manifest-backed keyspace. `key_references` and
-gram_references` carry those handles with `source_kind`, `source_value`, resolved key, and expansion.
+This is why the key grammar is highly related to ngram types and classes. Ngrams are not only lexical spans; they are candidate handles into a manifest-backed keyspace. `key_references` and `ngram_references` carry those handles with `source_kind`, `source_value`, resolved key, and expansion.
 
 ## Manifest key-books
 

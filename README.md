@@ -4,6 +4,25 @@ EBNF v3 runtime grammar for the **K'UHUL key-grammar JSON** format, plus corpus 
 
 The key-grammar defines how structured JSON records are addressed, phase-bound, and validated against the K'UHUL semantic algebra. Every record in the gram store is an instance of one of the row types described by `key-grammar-json.runtime.ebnf`.
 
+
+## Layer classification
+
+This kit defines the **Semantic Fold Compression Grammar**. The grammar is the source layer: manifest-backed key-books compress semantic fold neighborhoods into addressable key-words, then unfold those addresses into graph topology and optional geometric field projections.
+
+```text
+Semantic Fold Compression Grammar
+  -> Semantic Fold Graph Topology
+  -> Geometric Node Field Class
+```
+
+| Layer | Meaning | Kit/runtime surface |
+|-------|---------|---------------------|
+| Semantic Fold Compression Grammar | Declares compressed semantic addresses and unfold rules. | `*.manifest.json`, `⟁KEYGRAMMAR`, `resolve_manifest`, key-books, Bag of Key-Words |
+| Semantic Fold Graph Topology | Expanded atoms, relations, books, candidates, folds, and phase edges. | `data/grammar/fold_graph.xml`, SGSFG, `Book(k) = N(k)` |
+| Geometric Node Field Class | Projection of the graph into vectors, fields, coordinates, tensors, or rendering/runtime geometry. | `field.xml`, vector metadata, GML, SVG-3D, tensor projections |
+
+Use the first name when describing this kit as a grammar package. Use the second when describing the unfolded graph. Use the third when describing a vector/field/tensor projection of that graph.
+
 ## Key record types
 
 | Type | Key prefix | Phase | Description |
@@ -45,7 +64,7 @@ The key-grammar defines how structured JSON records are addressed, phase-bound, 
 
 ## Manifest key-books
 
-The key-grammar layer also includes manifest-backed key-books. A **key-word** is the singular resolved address/evidence unit. A **key-book** is the plural declared neighborhood that stores many key-words and their expansion edges. This avoids confusing KHANARY key-books with generic graph-theory book terminology.
+The key-grammar layer is the Semantic Fold Compression Grammar and includes manifest-backed key-books. A **key-word** is the singular resolved address/evidence unit. A **key-book** is the plural declared neighborhood that stores many key-words and their expansion edges. This avoids confusing KHANARY key-books with generic graph-theory book terminology.
 
 The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes, aliases, relation tags, phase markers, and operator tags. `resolve_manifest` / `resolve_manifest_key` is the shared traversal engine; each manifest supplies the domain grammar.
 
@@ -60,7 +79,7 @@ The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes
 | `data/manifest/kuhul.manifest.json` | Runtime authority key-book linking fold deltas, DirectionStore, episode contracts, fold graph laws, and key-query routes. |
 | `data/schema/math-isa.json` | Math GraphPlan ISA extension for manifest-driven `L_A` lowering. |
 
-See `docs/key-grammar-book-algebra.md` for the formal book/key-word terminology, traversal phases, Bag of Key-Words model, DirectionStore singular/plural boundary, and open specs for `A(v)`, `L_A`, SGSFG edges, and key-book algebra.
+See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression Grammar classification, book/key-word terminology, traversal phases, Bag of Key-Words model, DirectionStore singular/plural boundary, and open specs for `A(v)`, `L_A`, SGSFG edges, and key-book algebra.
 
 ## Files
 
