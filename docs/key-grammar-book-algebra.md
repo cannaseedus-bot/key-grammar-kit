@@ -229,6 +229,59 @@ surface joke prompt -> ngram evidence -> candidate sense keys -> selected semant
 
 A runtime should preserve both pieces: the selected `key-word` for semantic authority and the rendered `template`/answer text for user-facing humor.
 
+### Association fields vs action frames
+
+Association tokens and action predicates are different semantic objects. `vampire` can open an association field, but `withdrawals` is an action/predicate fold. In plain terms: withdrawals is an action/predicate fold. The action does not merely add another related word; it creates role slots that must be bound by context.
+
+```text
+action:withdraw
+  role:actor
+  role:object
+  role:source
+  role:account_or_repository
+```
+
+For the prompt:
+
+```text
+Where does a vampire make his withdrawals from?
+```
+
+the route is:
+
+```text
+intent:joke
+  + entity:vampire
+  + action:withdraw
+  + role:object <= assoc:blood
+  + role:source <= bank/repository candidate
+  -> bank:blood_repository
+  -> surface answer "Blood Bank"
+```
+
+The action fold `withdraw` asks for a source/account/repository. The vampire association field supplies `blood` as the object/need. The joke frame then selects the `bank:blood_repository` sense because it satisfies both the action frame and the vampire context.
+
+For the fast-food prompt, the opened frame is different:
+
+```text
+What do you call a fast food restaurant for a vampire?
+```
+
+```text
+intent:joke
+  + entity:vampire
+  + frame:food_venue
+  + role:consumer <= vampire
+  + role:food <= blood
+  + role:place <= repository/bank
+  -> bank:blood_repository
+  -> surface answer "Blood Bank"
+```
+
+`fast_food_restaurant` opens a venue/place frame where food is obtained quickly. `vampire` supplies the food class through `blood`. The shared answer is still `Blood Bank`, but the path differs from the withdrawal joke: one route is `action:withdraw -> role:source`, and the other is `frame:food_venue -> role:place`.
+
+This is not just word association; it is frame binding over the association field.
+
 ### Recursive fold-unfold
 
 This example also shows folds unfolding to new folds that unfold. In the compression grammar, a manifest expansion entry can terminate as evidence or point at another fold/key-book address. That means an unfold can produce child fold addresses, and those child folds can unfold in turn.

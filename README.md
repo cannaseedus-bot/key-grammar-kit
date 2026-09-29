@@ -113,6 +113,45 @@ vampire
 
 Those associations enter the candidate field. They can support alternate jokes or metaphor routes, but the joke frame still selects the punchline-compatible path for this prompt: `fast_food_restaurant + vampire + blood + bank -> Blood Bank`.
 
+### Association fields vs action frames
+
+`withdrawals` is an action/predicate fold, not a plain association. The verb opens role slots, and the association field fills them.
+
+```text
+action:withdraw
+  role:actor
+  role:object
+  role:source
+  role:account_or_repository
+```
+
+For `Where does a vampire make his withdrawals from?`, `vampire` supplies the blood need/object, while `withdrawals` supplies the source/account frame:
+
+```text
+intent:joke
+  + entity:vampire
+  + action:withdraw
+  + role:object <= assoc:blood
+  + role:source <= bank/repository candidate
+  -> bank:blood_repository
+  -> surface answer "Blood Bank"
+```
+
+For `What do you call a fast food restaurant for a vampire?`, the surface phrase opens a food-venue frame instead of a withdrawal frame:
+
+```text
+intent:joke
+  + entity:vampire
+  + frame:food_venue
+  + role:consumer <= vampire
+  + role:food <= blood
+  + role:place <= repository/bank
+  -> bank:blood_repository
+  -> surface answer "Blood Bank"
+```
+
+So `vampire` activates the blood/food association field, but `withdrawals` and `fast_food_restaurant` are frame folds that determine which role the association should fill. This is not just word association; it is frame binding over the association field.
+
 ### Recursive fold-unfold
 
 This is also an example of folds unfolding to new folds that unfold. A resolved key can unfold into a fold address; that fold can activate association keys that are themselves fold addresses; those child folds can unfold again as long as traversal remains bounded, cycle-aware, and phase-constrained.
