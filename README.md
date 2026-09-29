@@ -84,6 +84,19 @@ Examples:
 
 After disambiguation, the selected sense key receives the normal treatment: `Book(k)=N(k)`, symbolic score `S(k)=W_k+H_N(k)`, and phase face `Theta(k)`. This keeps polysemy out of the static key identity: `bank` is a surface handle; `bank:river_edge` and `bank:financial_institution` are different semantic addresses.
 
+
+### Joke/pun sense routing
+
+A joke request can deliberately route across senses. In the vampire example, the answer text is `Blood Bank`, but the normalized semantic key is the blood-repository sense of `bank`, not the financial-institution sense.
+
+```xml
+<template>What do you call a fast food restaurant for a vampire?</template>
+<semantics>key-word: bank:blood_repository; answer: Blood Bank</semantics>
+<ngrams>vampire, blood_sucker, food_source, physical_location, joke, bankers</ngrams>
+```
+
+The joke frame admits a pun bridge: `vampire + blood_sucker + food_source` supplies blood semantics, `physical_location + restaurant + bank` supplies place semantics, and `joke + bankers` keeps the financial surface available as wordplay without selecting it as the primary sense.
+
 ## Symbolic key score
 
 A resolved key can be scored before any vector or tensor projection by combining its static intrinsic weight with horizontal neighborhood evidence from its declared key-book:

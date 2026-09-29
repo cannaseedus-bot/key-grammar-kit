@@ -164,6 +164,41 @@ polysemy resolves before horizontal N and vertical Theta
 
 Location or action language can create intent-shaped sense keys. `bank closest to me` is not merely the financial-institution sense; it also activates search/locality constraints such as `intent:local_search`, `constraint:nearby`, and `context:geolocation`.
 
+
+### Joke and pun sense routing
+
+A joke request can intentionally keep multiple senses active while still selecting a primary semantic key. For example:
+
+```xml
+<template>What do you call a fast food restaurant for a vampire?</template>
+<semantics>key-word: bank:blood_repository; answer: Blood Bank</semantics>
+<ngrams>vampire, blood_sucker, food_source, physical_location, joke, bankers</ngrams>
+```
+
+The visible punchline is `Blood Bank`. The semantic key is `bank:blood_repository`. The route is:
+
+```text
+intent:joke
+  + vampire
+  + blood_sucker
+  + food_source
+  + physical_location
+  + bankers
+  -> candidate senses {bank:blood_repository, bank:financial_institution}
+  -> selected punchline sense bank:blood_repository
+  -> surface answer "Blood Bank"
+```
+
+The joke frame changes the admission policy. `bankers` and `bank:financial_institution` can remain as wordplay evidence, but they do not override the selected blood-repository sense. The pun works because the surface answer carries two readings while the semantic route records which sense solved the prompt.
+
+This is the same polysemy rule with an extra frame:
+
+```text
+surface joke prompt -> ngram evidence -> candidate sense keys -> selected semantic key -> punchline surface
+```
+
+A runtime should preserve both pieces: the selected `key-word` for semantic authority and the rendered `template`/answer text for user-facing humor.
+
 ## Static weight and horizontal neighborhood evidence
 
 A key carries static intrinsic weight plus horizontal evidence from its declared neighborhood:
@@ -537,4 +572,4 @@ The grammar layer locks the vocabulary model, but four specs still need explicit
 
 ## One-line contract
 
-`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
+`words.manifest.json` is the key grammar. Every manifest file is a key-book. `resolve_manifest` is the phase-constrained unfold engine. `⟁KEYGRAMMAR` is the type signature. `L_A` is manifest-driven. Ngrams produce candidate sense keys and then a Bag of Key-Words; joke frames can keep pun senses active while selecting a primary semantic key; manifest key-books unfold that bag into query-local Semantic Fold Graph Topology; `S(k)=W_k+H_N(k)` scores keys from static weight plus horizontal neighborhood evidence before vectors; `Semantic state = W(k) + N(k) + Theta(k)` adds the vertical phase-semantic face of the same key; geometric fields project that topology without redefining semantic authority; and DirectionStore guards the plural semantic-context boundary for verified fold directions.
