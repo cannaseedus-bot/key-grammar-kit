@@ -42,12 +42,42 @@ The key-grammar defines how structured JSON records are addressed, phase-bound, 
 | SC-12 | `string_object` values are JSON strings only |
 | SC-13 | `template_slot_row` slot_type↔slot_unit coupling (mirrors SC-3) |
 
+
+## Manifest key-books
+
+The key-grammar layer also includes manifest-backed key-books. A **key-word** is the singular resolved address/evidence unit. A **key-book** is the plural declared neighborhood that stores many key-words and their expansion edges. This avoids confusing KHANARY key-books with generic graph-theory book terminology.
+
+The runtime input is a **Bag of Key-Words** derived from tokens, ngrams, classes, aliases, relation tags, phase markers, and operator tags. `resolve_manifest` / `resolve_manifest_key` is the shared traversal engine; each manifest supplies the domain grammar.
+
+| Key-book | Role |
+|----------|------|
+| `data/manifest/words.manifest.json` | Canonical vocabulary key-book: lexical aliases, intents, relation families, phase anchors, dispatch keys, and conditionals. |
+| `data/manifest/css.manifest.json` | Atomic CSS/UI key-book; declares `⟁KEYGRAMMAR`, style atoms, composed blocks, components, layouts, and app-level UI keys. |
+| `data/manifest/folds.manifest.json` | K'UHUL phase-fold/topology key-book: activation fold, horizontal/vertical phase folds, association channels, and syntax books. |
+| `data/manifest/gml.manifest.json` | Graph topology key-book: GML loader, validators, Q3/Q4 hypercubes, CCC_n graphs, projection ABI, and gyro ABI. |
+| `data/manifest/aiml.manifest.json` | AIML structure key-book: pattern, template, wildcard, topic, that, graph, relation, and advisor routing keys. |
+| `data/manifest/eliza.manifest.json` | ELIZA operator key-book: 16 ELIZA-1 operators mapped to relation families and phases. |
+| `data/manifest/kuhul.manifest.json` | Runtime authority key-book linking fold deltas, DirectionStore, episode contracts, fold graph laws, and key-query routes. |
+| `data/schema/math-isa.json` | Math GraphPlan ISA extension for manifest-driven `L_A` lowering. |
+
+See `docs/key-grammar-book-algebra.md` for the formal book/key-word terminology, traversal phases, Bag of Key-Words model, DirectionStore singular/plural boundary, and open specs for `A(v)`, `L_A`, SGSFG edges, and key-book algebra.
+
 ## Files
 
 | File | Description |
 |------|-------------|
 | `key-grammar-json.runtime.ebnf` | Full EBNF v3 with SC-1..SC-13 side constraints |
 | `tools/grammar/mini_transpilers.py` | Source-side validator/transpiler referenced by the EBNF side constraints; defaults to the KHANARY.CPP repo layout. |
+| `data/schema/math-isa.json` | Closed-world math GraphPlan ISA extension used by manifest-driven `L_A`. |
+| `data/schema/manifest-map.schema.json` | Schema for key-word expansion maps, including typed declarative XCFE conditionals. |
+| `data/schema/episode.contract.json` | Episode/FoldDelta/FoldDirection contract defining journal evidence, direction library, and PrincipalDirection rules. |
+| `data/grammar/fold_graph.xml` | Fold graph laws, including journal-is-direction-library and fold-delta-not-vec-delta. |
+| `data/manifest/*.manifest.json` | Manifest key-books for words, css, folds, gml, aiml, eliza, and kuhul runtime domains. |
+| `src/kuhul/fold_delta.h` | Reference C++ boundary for one verified semantic displacement (`FoldDelta`). |
+| `src/kuhul/fold_direction.h` | Reference C++ boundary for `DirectionStore` and derived `FoldDirection`. |
+| `src/kuhul/fold_direction.cpp` | Current DirectionStore membership/retrieval implementation: GOOD gate, `micronaut_id` grouping, and Jaccard capability retrieval. |
+| `tools/check_key_book_grammar.py` | Dependency-free validator for manifest key-book shape, `⟁KEYGRAMMAR`, conditionals, ELIZA operator pack, math ISA, and DirectionStore semantic boundary. |
+| `docs/key-grammar-book-algebra.md` | Formal key-book/key-word algebra spec: manifests as declared neighborhoods, Bag of Key-Words, phase traversal, manifest-driven `L_A`, and `FoldDelta`/`DirectionStore`/`FoldDirection` cardinalities. |
 | `control-flow.key-grammar.jsonl` | XCFE control operator bindings — one record per operator |
 | `control-capability-gaps.jsonl` | Capability gap records for Ch'en miss classification |
 | `greeting-bank.json` | Greeting/response seed data (raw) |
@@ -61,6 +91,16 @@ The key-grammar defines how structured JSON records are addressed, phase-bound, 
 | `plan-bootstrap.key-grammar.jsonl` | Plan seeds as key-grammar records |
 
 > **Note:** `english-dictionary.lexicon.key-grammar.jsonl` (122 MB) exceeds GitHub's file size limit and is not included. It is available in the full KHANARY.CPP distribution.
+
+## Validation
+
+Run the manifest/key-book validator from the kit root:
+
+```powershell
+python tools\check_key_book_grammar.py
+```
+
+`tools/grammar/mini_transpilers.py validate` targets the full KHANARY.CPP `data/grammar` layout. This slim kit keeps the large key-grammar JSONL artifacts at the kit root, so use `check_key_book_grammar.py` for the bundled manifest, schema, and DirectionStore boundary checks.
 
 ## Record format
 

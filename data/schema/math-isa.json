@@ -1,0 +1,99 @@
+{
+  "id": "math-isa.v1",
+  "kind": "aiml_graphplan_isa_extension",
+  "domain": "math",
+  "compiler": "L_A",
+  "base_isa": "GraphPlan",
+  "source_aiml": "data/alice/math.aiml",
+  "closed_world_policy": {
+    "allow_runtime_op_invention": false,
+    "require_declared_ops": true,
+    "rule": "AIML categories may only emit math ops declared in this extension."
+  },
+  "graphplan_ops": [
+    {
+      "op": "SOLVE",
+      "mathml": "apply(solve,equation,variable)",
+      "resolver_capability": "MATH_SYMBOLIC_SOLVE",
+      "resolver_primitive": "symbolic_math"
+    },
+    {
+      "op": "ISOLATE",
+      "mathml": "apply(isolate,expr,variable)",
+      "resolver_capability": "MATH_SYMBOLIC_SOLVE",
+      "resolver_primitive": "symbolic_math"
+    },
+    {
+      "op": "SIMPLIFY",
+      "mathml": "apply(simplify,expr)",
+      "resolver_capability": "MATH_SYMBOLIC_SIMPLIFY",
+      "resolver_primitive": "symbolic_math"
+    },
+    {
+      "op": "FACTOR",
+      "mathml": "apply(factor,expr)",
+      "resolver_capability": "MATH_SYMBOLIC_FACTOR",
+      "resolver_primitive": "symbolic_math"
+    },
+    {
+      "op": "EXPAND",
+      "mathml": "apply(expand,expr)",
+      "resolver_capability": "MATH_SYMBOLIC_EXPAND",
+      "resolver_primitive": "symbolic_math"
+    },
+    {
+      "op": "EVALUATE",
+      "mathml": "apply(evaluate,expr)",
+      "resolver_capability": "MATH_SYMBOLIC_EVALUATE",
+      "resolver_primitive": "symbolic_math"
+    },
+    {
+      "op": "SOLVE_LINEAR",
+      "mathml": "apply(solve,linear_system,variable_vector)",
+      "resolver_capability": "MATRIX_BUFFER_SOLVE",
+      "resolver_primitive": "matrix_buffer"
+    },
+    {
+      "op": "MATMUL",
+      "mathml": "apply(times,matrix_a,matrix_b)",
+      "resolver_capability": "MATRIX_BUFFER_MATMUL",
+      "resolver_primitive": "matrix_buffer"
+    },
+    {
+      "op": "EIGENVALUES",
+      "mathml": "apply(eigenvalues,matrix)",
+      "resolver_capability": "MATRIX_BUFFER_APPLY_OP",
+      "resolver_primitive": "matrix_buffer"
+    }
+  ],
+  "aiml_lowering_examples": [
+    {
+      "pattern": "SOLVE * EQUALS *",
+      "emit": {
+        "op": "SOLVE",
+        "bind": ["lhs:<star index=\"1\"/>", "rhs:<star index=\"2\"/>"]
+      }
+    },
+    {
+      "pattern": "SIMPLIFY *",
+      "emit": {
+        "op": "SIMPLIFY",
+        "bind": ["expr:<star/>"]
+      }
+    },
+    {
+      "pattern": "SOLVE LINEAR SYSTEM *",
+      "emit": {
+        "op": "SOLVE_LINEAR",
+        "bind": ["system:<star/>"]
+      }
+    }
+  ],
+  "ls_derivation_profile": {
+    "rules": [
+      "SOLVE -> RESOLVE lhs,rhs -> REQUIRE ISOLATE -> VERIFY -> SYNTHESIZE",
+      "SIMPLIFY -> RESOLVE expr -> APPLY rewrite_rules -> VERIFY normal_form",
+      "SOLVE_LINEAR -> BUILD Axb -> MATRIX_BUFFER_SOLVE -> VERIFY residual"
+    ]
+  }
+}

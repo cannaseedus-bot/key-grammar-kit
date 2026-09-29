@@ -1,0 +1,18 @@
+{
+  "AIML:": ["@aiml", "AIML-µ", "pattern", "template", "intent:aiml_dispatch", "⟁Pop", "⟁Sek"],
+  "@aiml": ["@node:AIML-µ", "AIML:", "aiml:pattern", "aiml:template", "aiml:wildcard", "aiml:topic", "aiml:that"],
+  "AIML-µ": ["AIML:", "@aiml", "intent-matching", "pattern-response", "symbolic-routing"],
+  "aiml:pattern": ["match", "category", "token-sequence", "phase:Pop"],
+  "aiml:template": ["response", "emit", "phase:Xul"],
+  "aiml:wildcard": ["*", "_", "capture", "phase:Wo"],
+  "aiml:topic": ["context-scope", "selector", "phase:Yax"],
+  "aiml:that": ["conversation-state", "prior-response", "phase:Ch'en"],
+  "aiml:graph": ["nodes", "relations", "pattern-links", "phase:Sek"],
+  "aiml:relation": ["@related_to", "@depends_on", "@supports", "phase:Yax"]
+  ,"ADVISOR-µ": ["advisor.aiml", "expert-routing", "wpf-card", "phase:Yax", "phase:Sek"]
+  ,"advisor:math": ["MATH-µ", "math:", "card_view=true"]
+  ,"advisor:code": ["coder", "code:", "card_view=true"]
+  ,"advisor:research": ["WEB-RESEARCH-µ", "search:", "card_view=true"]
+  ,"advisor:explain": ["reasoner", "explain:", "card_view=true"]
+  ,"advisor:plan": ["Coordinator", "plan:", "card_view=true"]
+}

@@ -1,0 +1,259 @@
+{
+  "id": "episode.v1",
+  "kind": "episode_journal_contract",
+  "version": "1.0.0",
+  "date": "2026-09-27",
+
+  "classification": {
+    "episode_is": "a verified semantic transition record: ⟨Prompt, Unfold/Field, Selection/WCR, Response, Verification⟩",
+    "episode_is_not": "a raw prompt/reply transcript",
+    "law": "GeneratedEpisode ≠ TrainingEpisode",
+    "path": "GeneratedEpisode → Verdict(GOOD|BAD|UNKNOWN) → VerifiedEpisode → DatasetProjection → TrainingExample",
+    "anti_pattern": "Model says X → Log(X) → Train(X) → Model more likely says X. Self-reinforcement without verification amplifies behavior without establishing truth."
+  },
+
+  "full_episode_record": {
+    "formal": "E_t = ⟨O_t, F_Q, Candidates, WCR, Geometry, Admission, Executors, Verdict, Evidence⟩",
+    "components": {
+      "O_t":        "raw observation: (Prompt, Reply) pair",
+      "F_Q":        "unfolded semantic field at query time: atoms, relations, books, candidates, unresolved",
+      "Candidates": "WCR-scored candidates from the active Fold provider",
+      "WCR":        "W, C, R, G scores per candidate with base score S = W*C*R*G",
+      "Geometry":   "fold_weight, relation_weight, phase_weight per candidate; semantic_score after lerp",
+      "Admission":  "admitted candidates with legal gate status (capable, policy_ok, xcfe_ok)",
+      "Executors":  "active micronauts / executors that produced the response",
+      "Verdict":    "GOOD | BAD | UNKNOWN — assigned by Ch'en or human feedback",
+      "Evidence":   "array of supporting evidence items used during verification"
+    }
+  },
+
+  "episode_structure": {
+    "prompt": {
+      "type": "string",
+      "description": "Original input text"
+    },
+    "unfold": {
+      "type": "object",
+      "fields": {
+        "atoms":      "array — resolved semantic atoms from fold_graph_parse",
+        "relations":  "array — typed semantic relations",
+        "books":      "array — semantic neighborhoods",
+        "candidates": "array — near/eligible semantic candidates with evidence counts",
+        "unresolved": "array — unresolved field items; not automatic mutation requirements"
+      }
+    },
+    "selection": {
+      "type": "object",
+      "fields": {
+        "candidate":     "string — selected micronaut or track id",
+        "M_cooccurrence":"float — co-occurrence mass M_{Y,X} used in representation construction. NOT W_Y.",
+        "W":             "float ∈ [0,1] — runtime selection weight (static_weight). Multiplicative prior in S = W*C*R*G.",
+        "C":             "float ∈ [0,1] — epistemic confidence. C ← f(Evidence), not f(Usage).",
+        "R":             "float ∈ [0,1] — relevance, provider-dependent: cosine | sdr-overlap | graph | scx",
+        "G":             "float ∈ [0,1] — geometry bias: lerp(1, relation_weight * fold_weight * phase_weight, relation_mix)",
+        "score":         "float — S = W * C * R * G",
+        "legal":         "bool — capable AND policy_ok AND xcfe_ok",
+        "admitted":      "bool — legal AND score >= admission_threshold (0.35)"
+      }
+    },
+    "response": {
+      "type": "string",
+      "description": "Generated response text"
+    },
+    "verification": {
+      "type": "object",
+      "fields": {
+        "verdict":  "GOOD | BAD | UNKNOWN",
+        "evidence": "array — supporting evidence items",
+        "notes":    "string — optional human annotation"
+      }
+    }
+  },
+
+  "scoring_contract": {
+    "formula": "S_Y^semantic = W_Y * C_Y * R_Y * G_Y",
+    "geometry": "G_Y = S_i * lerp(1, relation_weight * fold_weight * phase_weight, relation_mix)",
+    "components": {
+      "R_Y": "semantic match — does this candidate fit the query? Provider-dependent.",
+      "W_Y_C_Y": "candidate qualification — how strongly should this candidate participate?",
+      "G_Y": "geometric bias — where does this candidate sit in the Fold/Relation/Phase manifold?"
+    },
+    "M_W_distinction": {
+      "M_Y_X": "co-occurrence/association mass — accumulated counts from FoldPair Direction A. Feeds R_Y via the representation/provider pipeline.",
+      "W_Y": "runtime selection weight (static_weight in WCR) — multiplicative prior on candidate selection. Part of S = W*C*R*G.",
+      "law": "M_{Y,X} and W_Y are distinct and feed different pipeline stages. M feeds representation construction; W biases candidate selection."
+    },
+    "laws": {
+      "multiplicative_score": "S = W*C*R*G is multiplicative. R=0 ⟹ S=0. High W cannot create relevance where the provider found none.",
+      "legality_independent": "W=1, C=1, R=1 ⟹̸ Admit unless Legal=1. Score measures fit; legality measures authority.",
+      "bias_kind": "W is a multiplicative selection prior, not an additive bias (not y=Wx+b). W does not add to zero-R candidates."
+    }
+  },
+
+  "verdict_contract": {
+    "GOOD": {
+      "action": "Reinforce",
+      "effects": [
+        "Strengthen W_μ (increase static_weight for this candidate)",
+        "Update M_{Y,X} (co-occurrence mass — record the successful association)",
+        "Refine K_μ (key embedding if using vector provider)"
+      ]
+    },
+    "BAD": {
+      "action": "Correct or penalize",
+      "effects": [
+        "Reduce W_μ",
+        "Flag relation candidates for re-verification",
+        "Do NOT update M with this episode as positive evidence"
+      ]
+    },
+    "UNKNOWN": {
+      "action": "Hold",
+      "effects": [
+        "Do not treat as GOOD",
+        "Hold until evidence arrives",
+        "Increment unverified count; escalate if pattern persists"
+      ]
+    },
+    "confidence_rule": "C ← f(Evidence). Usage frequency does not change C. Only verified verdicts change C."
+  },
+
+  "dataset_projections": {
+    "description": "A single verified episode projects to multiple specialized datasets. The EpisodeJournal is the canonical historical record; datasets are derived views.",
+    "law": "Training datasets are projections of verified episodes, not copies of the raw transcript journal.",
+    "reconstruction_law": "New Fold representations (SDR/graph/SCX/vector) can be rebuilt from the episode journal without re-collecting conversations.",
+    "projections": [
+      {
+        "id": "Dataset_cooccurrence",
+        "input": "Prompt + F_Q + Response",
+        "output": "ΔM_{Y,X} — co-occurrence mass updates",
+        "use": "Bidirectional co-occurrence provider (vectors.mml FoldPair)"
+      },
+      {
+        "id": "Dataset_relation",
+        "input": "Verified relation candidates from F_Q",
+        "output": "Relation ISA reinforcement examples",
+        "use": "relation_isa.h canonical relation set refinement"
+      },
+      {
+        "id": "Dataset_retrieval",
+        "input": "Admitted candidates with WCR scores",
+        "output": "Retrieval model training pairs",
+        "use": "Vector/SDR provider fine-tuning"
+      },
+      {
+        "id": "Dataset_WCR",
+        "input": "W/C deltas from GOOD/BAD verdicts",
+        "output": "Weight and confidence update examples",
+        "use": "gram_store W_i / C_i adjustment"
+      },
+      {
+        "id": "Dataset_Advisor",
+        "input": "GOOD episodes (verified responses)",
+        "output": "Advisor fine-tune corpus",
+        "use": "Advisor repair-layer training"
+      },
+      {
+        "id": "Dataset_LFM",
+        "input": "Unresolved items + successful resolutions",
+        "output": "F_Q projection examples",
+        "use": "LFM context-layer summary model training"
+      },
+      {
+        "id": "Dataset_Micronaut",
+        "input": "Capability matches + admitted micronauts",
+        "output": "Factory prior update examples",
+        "use": "Micronaut selection prior refinement"
+      },
+      {
+        "id": "Dataset_response",
+        "input": "Verified prompt → response pairs (GOOD only)",
+        "output": "Language model fine-tune pairs",
+        "use": "Base language model supervised fine-tuning"
+      }
+    ]
+  },
+
+  "journal_vs_training": {
+    "EpisodeJournal": "Full historical record of every episode, including UNKNOWN verdicts. Canonical. Never discarded.",
+    "TrainingDataset": "Projection of verified episodes. May be rebuilt at any time from the journal.",
+    "boundary": "The journal grows monotonically. The training datasets are derived on demand.",
+    "law": "A training dataset that forgets the journal boundary can cause silent self-reinforcement loops."
+  },
+
+  "fold_delta": {
+    "description": "Semantic displacement extracted from a verified episode E_i^GOOD: ΔF_i = F_i' - F_i.",
+    "composition": "ΔF_i = ⟨ΔM_i, ΔRelations_i, ΔW_i, ΔC_i⟩",
+    "projections": {
+      "P_M":   "P_M(ΔF) = ΔM_{Y,X}  — co-occurrence mass changes (Dataset_cooccurrence)",
+      "P_R":   "P_R(ΔF) = ΔRelations — typed relation updates (Dataset_relation)",
+      "P_W":   "P_W(ΔF) = ΔW         — static_weight adjustments (Dataset_WCR)",
+      "P_C":   "P_C(ΔF) = ΔC         — evidence-based confidence updates (Dataset_WCR)"
+    },
+    "note": "The four dataset projections are not independent training datasets. They are four projections of the same semantic displacement ΔF.",
+    "law_delta_not_vec": "ΔF ≠ vec(ΔF). The structured displacement is authoritative. A vector projection is a retrieval/indexing representation, not the displacement itself. Exactly as Fold ≠ Vector."
+  },
+
+  "fold_direction": {
+    "description": "A reusable verified semantic transformation. The key object of the direction library.",
+    "formal": "FoldDirection_i = ⟨ΔF_i, K_i, W_i, C_i, Evidence_i, Provenance_i⟩",
+    "fields": {
+      "delta_F":    "ΔF_i = ⟨ΔM, ΔRelations, ΔW, ΔC⟩ — authoritative structured displacement",
+      "projections": {
+        "vector": "vec(ΔF_i) — for cos-similarity retrieval; lossy per projection contract",
+        "SDR":    "SDR(ΔF_i) — for BitConsensus retrieval",
+        "SCX":    "SCX(ΔF_i) — for SCX provider retrieval"
+      },
+      "K_i":        "Retrieval key: one projection of ΔF_i chosen by the active provider. K_i = P_v(ΔF_i).",
+      "W_i":        "Selection prior ∈ [0,1] — how strongly should this direction participate?",
+      "C_i":        "Evidence-based confidence ∈ [0,1]. C ← f(Evidence). Not f(usage_count).",
+      "Evidence_i": "Array of supporting verified episodes and verification records.",
+      "Provenance_i": "Source episode_ids, verdict timestamps, and Ch'en certificate references."
+    },
+    "principal_direction": {
+      "definition": "K_μ = PrincipalDirection(𝒟_Q) where 𝒟_Q = {ΔF_1, ΔF_2, ..., ΔF_n} are related verified episodes.",
+      "provider_implementations": {
+        "vector": "PCA(vec(ΔF_i)) — first principal component of vectorized displacements",
+        "graph":  "Consensus(ΔF_i) — intersection of relation/weight changes across episodes",
+        "SDR":    "BitConsensus(SDR(ΔF_i)) — majority-vote bitwise AND across SDR projections"
+      },
+      "law": "PrincipalDirection is a provider-agnostic operation. PCA is one implementation, not the semantic definition. PCA must not appear in K'UHUL semantics."
+    },
+    "retrieval": {
+      "formula": "R_i = Similarity(Q, K_i) — provider-dependent (cosine, graph-overlap, SDR-popcount)",
+      "scoring":  "S_i = W_i * C_i * R_i — same WCR algebra as candidate selection",
+      "semantics": "S_i means: how strongly should this previously verified semantic transformation participate here?"
+    },
+    "apply_vs_commit": {
+      "apply_to_field":   "F_Q + α*ΔF_i → F_Q'  — temporary fold-space transformation; reversible",
+      "commit_to_topology": "B + ΔF_i → B'       — requires Proposal → Ch'en → XCFE → XulGate → B'",
+      "law": "Apply direction to Field ≠ commit direction to Topology. A retrieved direction can steer semantic computation without mutating the permanent graph."
+    }
+  },
+
+  "direction_library": {
+    "description": "Derived reusable knowledge, built from the episode journal. Not a training dataset.",
+    "four_layer_separation": {
+      "Journal":          "Evidence — full historical record of every episode",
+      "FoldDelta":        "Learned transition — ΔF_i extracted from GOOD episodes",
+      "DirectionLibrary": "Derived reusable knowledge — FoldDirections indexed for retrieval",
+      "Projection_Index": "Retrieval optimization — provider-specific vectors/SDR/SCX of ΔF_i"
+    },
+    "derivation_law": "J_GOOD → DirectionLibrary_v. The library is derived from the journal, not collected independently.",
+    "reprojection_law": "When the representation changes (e.g. vector → SDR), re-project from J_GOOD. Do not re-collect experiences.",
+    "pipeline": "EpisodeJournal --[GOOD verdict]--> ΔF --[alignment/consensus]--> FoldDirections --[WCR]--> SelectedDirection --[apply]--> F_Q'",
+    "persistent_learning_path": "SelectedDirection --[Ch'en/XCFE/Xul]--> B'  (separate from apply-to-field path)"
+  },
+
+  "related": [
+    "data/grammar/fold_graph.xml",
+    "data/grammar/vectors.mml",
+    "data/grammar/fold.cd.xml",
+    "data/schema/kuhul.xsd",
+    "data/schema/fold.runtime.json",
+    "src/io/request_router.cpp",
+    "src/kuhul/phase_engine.cpp",
+    "src/micronaut/factory.cpp",
+    "src/memory/confidence.cpp"
+  ]
+}

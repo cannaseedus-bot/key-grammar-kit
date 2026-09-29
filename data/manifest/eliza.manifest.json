@@ -1,0 +1,30 @@
+{
+  "ELIZA:": ["@eliza", "ELIZA-µ", "ELIZA-1", "intent:eliza_dispatch", "⟁Pop", "⟁Sek"],
+  "@eliza": ["@node:ELIZA-µ", "ELIZA:", "eliza:operator-pack", "eliza:pattern-match", "eliza:response-shape", "eliza:relation-hints"],
+  "ELIZA-µ": ["ELIZA:", "@eliza", "intent-matching", "operator-graph", "fallback-dialogue"],
+  "eliza:operator-pack": [
+    "ELIZA-1:CAUSE", "ELIZA-1:CONTRAST", "ELIZA-1:DEPENDENCY", "ELIZA-1:CONSTRAINT",
+    "ELIZA-1:EVIDENCE", "ELIZA-1:SEQUENCE", "ELIZA-1:BOUNDARY", "ELIZA-1:STATE",
+    "ELIZA-1:CONFLICT", "ELIZA-1:ALTERNATIVE", "ELIZA-1:INVARIANT", "ELIZA-1:TEST",
+    "ELIZA-1:RELATION", "ELIZA-1:SUBSTITUTE", "ELIZA-1:VERIFY", "ELIZA-1:DIRECT"
+  ],
+  "eliza:pattern-match": ["surface-patterns", "wildcards", "capture-groups", "phase:Pop", "phase:Wo"],
+  "eliza:response-shape": ["transform", "reflect", "reframe", "phase:Sek", "phase:Xul"],
+  "eliza:relation-hints": ["infer_relation_from_lexical", "relation_phase_hint", "semantic_atom_hint", "phase:Yax", "phase:Ch'en"],
+  "ELIZA-1:CAUSE": ["@causes", "family:causal", "phase:Wo"],
+  "ELIZA-1:CONTRAST": ["@contradicts", "family:epistemic", "phase:Ch'en"],
+  "ELIZA-1:DEPENDENCY": ["@depends_on", "family:dependency", "phase:Wo"],
+  "ELIZA-1:CONSTRAINT": ["@requires", "family:dependency", "phase:Wo"],
+  "ELIZA-1:EVIDENCE": ["@evidence_for", "family:epistemic", "phase:Ch'en"],
+  "ELIZA-1:SEQUENCE": ["@next", "@previous", "family:context", "phase:Pop"],
+  "ELIZA-1:BOUNDARY": ["@context", "family:context", "phase:Pop"],
+  "ELIZA-1:STATE": ["@is_a", "family:semantic", "phase:Pop"],
+  "ELIZA-1:CONFLICT": ["@contradicts", "family:epistemic", "phase:Ch'en"],
+  "ELIZA-1:ALTERNATIVE": ["@related_to", "family:semantic", "phase:Pop"],
+  "ELIZA-1:INVARIANT": ["@supports", "family:epistemic", "phase:Ch'en"],
+  "ELIZA-1:TEST": ["@supports", "family:epistemic", "phase:Ch'en"],
+  "ELIZA-1:RELATION": ["@related_to", "family:semantic", "phase:Pop"],
+  "ELIZA-1:SUBSTITUTE": ["@redirect", "family:control", "phase:Wo"],
+  "ELIZA-1:VERIFY": ["@supports", "family:epistemic", "phase:Ch'en"],
+  "ELIZA-1:DIRECT": ["@delegates_to", "family:runtime", "phase:Sek"]
+}

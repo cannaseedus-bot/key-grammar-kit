@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:khanary:schema:manifest-map:1",
+  "title": "KHANARY Manifest Map",
+  "description": "Manifest key->token[] maps. Tokens are strings or typed declarative XCFE conditionals; loading never executes them.",
+  "$defs": {
+    "Token": {
+      "anyOf": [
+        { "type": "string" },
+        {
+          "type": "object",
+          "required": ["@if", "@then"],
+          "properties": {
+            "@if": { "anyOf": [{ "type": "string" }, { "type": "boolean" }] },
+            "@then": { "type": "array", "items": { "$ref": "#/$defs/Token" } },
+            "@else": { "type": "array", "items": { "$ref": "#/$defs/Token" } }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "type": "object",
+  "propertyNames": {
+    "type": "string",
+    "minLength": 1
+  },
+  "additionalProperties": {
+    "type": "array",
+    "items": { "$ref": "#/$defs/Token" }
+  }
+}

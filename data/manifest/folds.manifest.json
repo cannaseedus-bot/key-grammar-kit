@@ -1,0 +1,12 @@
+{
+  "FOLDS:": ["@folds", "fold:horizontal", "fold:vertical", "fold:graph-parse", "fold:association-channels", "fold:syntax-books"],
+  "@folds": ["FOLDS:", "fold:activation", "fold:topology", "fold:contracts", "phase:Wo", "phase:Yax"],
+  "fold:activation": ["Text->Grams->Associations->Books->Atoms->Relations->FoldGraph", "phase:Pop", "phase:Wo", "phase:Yax"],
+  "fold:topology": ["incidence:B_tau[v,e]", "typed-relations", "candidate-sets", "phase:Sek"],
+  "fold:contracts": ["recognition_only", "XCFE_canonical_contract_only", "phase:Ch'en"],
+  "fold:horizontal": ["Δθ=0", "weight=+1.0", "same_phase_traversal", "phase:Yax"],
+  "fold:vertical": ["Δθ=π/3", "weight=+0.5", "phase_transition", "phase:Wo"],
+  "fold:graph-parse": ["fold_graph_parse", "atoms", "relations", "books", "candidates", "unresolved", "provenance"],
+  "fold:association-channels": ["assoc:char", "assoc:morph", "assoc:word", "assoc:syntax", "assoc:semantic"],
+  "fold:syntax-books": ["Book(SUBJECT)", "Book(PREDICATE)", "Book(INDEPENDENT_CLAUSE)", "Book(DEPENDENT_CLAUSE)", "Book(COMPOUND_SENTENCE)", "Book(COMPLEX_SENTENCE)"]
+}
