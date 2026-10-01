@@ -1,6 +1,6 @@
 # K'UHUL JSON Key-Grammar Kit
 
-EBNF v3 runtime grammar for the **K'UHUL key-grammar JSON** format, plus corpus records used by the K'UHUL runtime.
+EBNF v4 runtime grammar for the **K'UHUL key-grammar JSON** format, plus corpus records used by the K'UHUL runtime.
 
 The key-grammar defines how structured JSON records are addressed, phase-bound, and validated against the K'UHUL semantic algebra. Every record in the gram store is an instance of one of the row types described by `key-grammar-json.runtime.ebnf`.
 
@@ -274,8 +274,9 @@ Horizontal asks: what is connected to this meaning? Vertical asks: what else can
 | `greeting_row` | `greeting:<id>` | Pop | Greeting/response seed |
 | `lingo_blend_row` | `lingo:<id>` | Pop/Wo | Multilingual/register blend |
 | `template_slot_row` | `template:slot:<name>` | any | Template slot binding (SC-13) |
+| `tensor_projection_row` | `tensor:<id>` | Yax/Ch'en | TENSOR-µ/VECTOR-µ projection-only geometry records; tensor rank, metric, Jacobian, provider, generation, and semantic_authority=false |
 
-## EBNF v3 additions over v2
+## EBNF v4 additions over v3
 
 - `control_op_fields` shared production — eliminates duplication across control row variants
 - `greeting_phase` split — phase name is a separate terminal, not inlined
@@ -284,7 +285,11 @@ Horizontal asks: what is connected to this meaning? Vertical asks: what else can
 - `lingo_blend_key` — explicit production for multilingual blend keys
 - SC-1..SC-13 side-constraint block — cross-field invariants enforced by `mini_transpilers.py`
 
-## Side constraints (SC-1..SC-13)
+- `tensor_projection_row` — first-class projection-only key record for TENSOR-µ and VECTOR-µ providers
+- `tensor_projection_kind` — bounded projection family: tensor field, metric tensor, Jacobian, curvature, rank-1 vector provider
+- SC-14..SC-16 side constraints — semantic authority false, rank coherence, nondegenerate metric/Jacobian shape
+
+## Side constraints (SC-1..SC-16)
 
 | SC | Rule |
 |----|------|
@@ -301,6 +306,9 @@ Horizontal asks: what is connected to this meaning? Vertical asks: what else can
 | SC-11 | `key_store_key` matches the pattern for its row type |
 | SC-12 | `string_object` values are JSON strings only |
 | SC-13 | `template_slot_row` slot_type↔slot_unit coupling (mirrors SC-3) |
+| SC-14 | `tensor_projection_row` must carry `semantic_authority=false`; projection geometry cannot mutate topology B |
+| SC-15 | Tensor rank must be coherent with projection kind; VECTOR-µ is rank-1 provider, metric tensor is covariant rank-2 |
+| SC-16 | Metric/Jacobian arrays must be square and nondegenerate for their active dimension |
 
 
 ## Manifest key-books
@@ -353,6 +361,7 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 | `data/tracks/JOKE-u.semantic-tracks.v1.json` | First-class JOKE-µ semantic track definition: governs, capabilities, delivery-frame folds, aliases, phase route, and boundary rules. |
 | `plan-bootstrap.json` | Plan/proposal seed data (raw) |
 | `plan-bootstrap.key-grammar.jsonl` | Plan seeds as key-grammar records |
+| `tensor-projection.key-grammar.jsonl` | TENSOR-µ/VECTOR-µ projection-only tensor-bundle records |
 
 > **Note:** `english-dictionary.lexicon.key-grammar.jsonl` (122 MB) exceeds GitHub's file size limit and is not included. It is available in the full KHANARY.CPP distribution.
 

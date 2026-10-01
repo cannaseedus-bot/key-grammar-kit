@@ -23,5 +23,8 @@
   "lexicon_rows": 18830,
   "relation_rows": 99274,
   "relations_file": "data\\grammar\\english-dictionary.definition-relations.key-grammar.jsonl",
-  "schema": "key.grammar.dictionary.v2"
+  "schema": "key.grammar.dictionary.v2",
+  "key_grammar_runtime_version": "v4",
+  "tensor_bundle_grounding": true,
+  "tensor_projection_file": "data\\grammar\\tensor-projection.key-grammar.jsonl"
 }

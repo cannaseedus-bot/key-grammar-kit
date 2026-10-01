@@ -1,4 +1,4 @@
-(* KHANARY key-grammar JSON Runtime EBNF v3 *)
+(* KHANARY key-grammar JSON Runtime EBNF v4 — tensor-bundle grounding *)
 (* Typed gram channels are structured, phase-bound, provenance-carrying
    records — never a bag of words. Every channel declares ordered width,
    first-occurrence position, a semantic role, a K'UHUL phase binding,
@@ -10,10 +10,13 @@
      - channel_contract marked documentation-only and unreachable from document.
      - template_slot_row added: template slot variables are first-class gram records.
      - side-constraint block appended (SC-1 .. SC-13) capturing cross-field
-       invariants that were previously only implied. *)
+       invariants that were previously only implied.
+     - tensor_projection_row added for TENSOR-µ projection-only geometry.
+     - SC-14 .. SC-16 added for tensor rank, authority, and metric/Jacobian shape. *)
 
 document = lexicon_row | relation_row | greeting_bank_row | greeting_learning_row
-         | control_flow_row | control_plan_row | template_slot_row ;
+         | control_flow_row | control_plan_row | template_slot_row
+         | tensor_projection_row ;
 
 (* ── Row forms ───────────────────────────────────────────────────────── *)
 lexicon_row =
@@ -414,8 +417,43 @@ xcfe_class_phase_pair =
     "{", "\"class\":", "\"", xcfe_node_class, "\"", ",",
          "\"phase\":", "\"", phase_name, "\"", "}" ;
 
+
+(* ── Tensor projection declarations ─────────────────────────────────── *)
+(* TENSOR-µ records are projection-only key-grammar rows. They declare
+   derived geometry over authoritative FoldGraph/GML topology. They do not
+   verify truth, mutate topology B, or replace Ch'en/Xul authority. *)
+
+tensor_projection_row =
+    "{",
+      "\"schema\":", "\"key.grammar.tensor_projection.v1\"", ",",
+      q_tp_key, ",", q_tp_track_id, ",", q_tp_phase, ",",
+      q_tp_unit, ",", q_tp_provider_id, ",",
+      q_tp_projection_kind, ",", q_tp_base_manifold, ",",
+      q_tp_tensor_rank_p, ",", q_tp_tensor_rank_q, ",",
+      q_tp_semantic_authority, ",", q_tp_generation,
+      [ ",", q_tp_metric_tensor ],
+      [ ",", q_tp_jacobian ],
+      [ ",", q_tp_source_refs ],
+    "}" ;
+
+q_tp_key                = "\"key\":", "\"", tensor_projection_key, "\"" ;
+q_tp_track_id           = "\"track_id\":", string ;
+q_tp_phase              = "\"phase\":", "\"", phase_name, "\"" ;
+q_tp_unit               = "\"unit\":", "\"tensor_projection\"" ;
+q_tp_provider_id        = "\"provider_id\":", string ;
+q_tp_projection_kind    = "\"projection_kind\":", "\"", tensor_projection_kind, "\"" ;
+q_tp_base_manifold      = "\"base_manifold\":", string ;
+q_tp_tensor_rank_p      = "\"tensor_rank_p\":", integer ;
+q_tp_tensor_rank_q      = "\"tensor_rank_q\":", integer ;
+q_tp_semantic_authority = "\"semantic_authority\":", "false" ;
+q_tp_generation         = "\"generation\":", integer ;
+q_tp_metric_tensor      = "\"metric_tensor\":", number_array ;
+q_tp_jacobian           = "\"jacobian\":", number_array ;
+q_tp_source_refs        = "\"source_refs\":", string_array ;
+
 (* ── Terminals ────────────────────────────────────────────────────────── *)
 string_array = "[", [ string, { ",", string } ], "]" ;
+number_array = "[", [ number, { ",", number } ], "]" ;
 boolean = "true" | "false" ;
 string = ? JSON string ? ;
 number = ? JSON number ? ;
@@ -435,6 +473,9 @@ greeting_form = ? sanitized user greeting form ? ;
 lingo_token = ? sanitized learned lingo token (underscores for spaces) ? ;
 synthesized_word = ? runtime-blended associative word ? ;
 slot_name = ? bare slot name, e.g. brand_accent ? ;
+tensor_projection_key = "tensor:", ? projection key id ? ;
+tensor_projection_kind = "tensor_field" | "metric_tensor" | "jacobian"
+                       | "curvature" | "rank1_vector_provider" ;
 
 (* ══════════════════════════════════════════════════════════════════════ *)
 (* ── Side-constraint block (SC) ──────────────────────────────────────── *)
@@ -587,5 +628,36 @@ slot_name = ? bare slot name, e.g. brand_accent ? ;
    reason:  Mirrors SC-3 for slots: the unit field is not free text, it
             must reflect the semantic category of the type it carries.
             A port with unit=brand_token is a mis-classification. *)
+
+
+(* SC-14 tensor_projection_row authority boundary.
+   scope:   tensor_projection_row
+   binds:   semantic_authority, provider_id, projection_kind
+   pred:    semantic_authority MUST be false. TENSOR-µ and VECTOR-µ rows are
+            derived geometry only; they may score/retrieve/project, but they
+            cannot verify truth, mutate topology B, or mint CommitAuthority.
+   reason:  Preserves Manifest/FoldGraph/RelationISA as semantic authority. *)
+
+(* SC-15 tensor_projection_row rank coherence.
+   scope:   tensor_projection_row
+   binds:   tensor_rank_p, tensor_rank_q, projection_kind
+   pred:    tensor_rank_p >= 0 AND tensor_rank_q >= 0.
+            projection_kind = "rank1_vector_provider" implies
+              tensor_rank_p + tensor_rank_q = 1.
+            projection_kind = "metric_tensor" implies
+              tensor_rank_p = 0 AND tensor_rank_q = 2.
+   reason:  Keeps VECTOR-µ as the Rank-1 compatibility provider under
+            TENSOR-µ and keeps metric tensors covariant. *)
+
+(* SC-16 tensor_projection_row metric/Jacobian shape.
+   scope:   tensor_projection_row
+   binds:   metric_tensor, jacobian, generation
+   pred:    generation >= 1.
+            If metric_tensor is present, its length is a perfect square and
+            determinant != 0 for the active dimension.
+            If jacobian is present, its length is a perfect square and
+            determinant != 0 for the active dimension.
+   reason:  Prevents degenerate coordinate projections from entering the
+            key-book surface. *)
 
 (* ── End side-constraint block ───────────────────────────────────────── *)
