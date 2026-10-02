@@ -85,6 +85,35 @@ Examples:
 After disambiguation, the selected sense key receives the normal treatment: `Book(k)=N(k)`, symbolic score `S(k)=W_k+H_N(k)`, and phase face `Theta(k)`. This keeps polysemy out of the static key identity: `bank` is a surface handle; `bank:river_edge` and `bank:financial_institution` are different semantic addresses.
 
 
+## Hyperbolic key-grammar events
+
+A key-grammar event is related to the relativity notion of an [event](https://en.wikipedia.org/wiki/Event_(relativity)) by structure, not by physics. In relativity, an event is an occurrence assigned a definite spacetime coordinate; the invariant interval between two events classifies whether one can influence the other. Timelike or lightlike separation permits causal influence, while spacelike separation does not.
+
+In this kit, the current semantic state is the origin, and a key-grammar row can describe a **candidate future semantic event**:
+
+```text
+origin             = current prompt/session state
+event              = token, gram, memory row, model response, or route candidate
+direction          = semantic route vector
+rapidity           = bounded semantic displacement along that route
+interval_class     = causal-style admissibility class
+epistemic_state    = UNKNOWN / SUPPORTED / CONTRADICTED / MISS-style state
+```
+
+The mapping is:
+
+| Relativity | Key-grammar kit |
+|---|---|
+| spacetime event | semantic event candidate |
+| event coordinates | key address plus hyperbolic coordinates |
+| causal future | admissible continuation surface |
+| timelike/lightlike interval | candidate may influence the next semantic route |
+| spacelike interval | projection-only diagnostic unless later evidence reclassifies it |
+| Lorentz boost | frame/track transition |
+| rapidity addition | ordered semantic displacement can compose: `rho_AC = rho_AB + rho_BC` |
+
+So `timelike_candidate` and `lightlike_candidate` rows may contribute to routing and attention. `spacelike_candidate` rows are still useful evidence geometry, but they do not authorize a causal continuation by themselves. The boundary remains strict: **a key-grammar event is not a verified fact**. Ch'en verifies the semantic result, and Xul remains the only commit boundary.
+
 ### Joke/pun sense routing
 
 A joke request can deliberately route across senses. In the vampire example, the answer text is `Blood Bank`, but the normalized semantic key is the blood-repository sense of `bank`, not the financial-institution sense.
@@ -335,7 +364,10 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 
 | File | Description |
 |------|-------------|
-| `key-grammar-json.runtime.ebnf` | Full EBNF v3 with SC-1..SC-13 side constraints |
+| `key-grammar-json.runtime.ebnf` | Full EBNF v4 with SC-1..SC-16 side constraints |
+| `aiml.runtime-grammar.ebnf` | AIML runtime grammar surface for pattern/template alignment. |
+| `scfml.runtime-grammar.ebnf` | SCFML runtime grammar surface for semantic-control flow markup. |
+| `micronaut.runtime-grammar.ebnf` | Micronaut runtime grammar for route contracts, profiles, tensor slots, and semantic envelopes. |
 | `tools/grammar/mini_transpilers.py` | Source-side validator/transpiler referenced by the EBNF side constraints; defaults to the KHANARY.CPP repo layout. |
 | `data/schema/math-isa.json` | Closed-world math GraphPlan ISA extension used by manifest-driven `L_A`. |
 | `data/schema/manifest-map.schema.json` | Schema for key-word expansion maps, including typed declarative XCFE conditionals. |
@@ -349,11 +381,14 @@ See `docs/key-grammar-book-algebra.md` for the formal Semantic Fold Compression 
 | `docs/key-grammar-book-algebra.md` | Formal Semantic Fold Compression Grammar spec: manifests as compressed semantic addresses, Bag of Key-Words algebra, symbolic key scoring, phase-constrained unfold into graph topology, projection authority boundaries, manifest-driven `L_A`, and `FoldDelta`/`DirectionStore`/`FoldDirection` cardinalities. |
 | `control-flow.key-grammar.jsonl` | XCFE control operator bindings — one record per operator |
 | `control-capability-gaps.jsonl` | Capability gap records for Ch'en miss classification |
+| `css.key-grammar.jsonl` | CSS/UI key-grammar records for atomic blocks and composed surfaces. |
+| `kuhul-relational.key-grammar.jsonl` | Relational key-grammar rows for K'UHUL graph/topology surfaces. |
+| `micronaut-route-contracts.key-grammar.jsonl` | Micronaut route-contract projections generated from live track contracts. |
 | `greeting-bank.json` | Greeting/response seed data (raw) |
 | `greeting-bank.key-grammar.jsonl` | Greeting seeds as key-grammar records |
 | `english-dictionary.definition-relations.key-grammar.jsonl` | Relation records derived from dictionary definitions |
 | `english-dictionary.key-grammar.meta.json` | Metadata for the dictionary corpus (stats, authority, channel) |
-| `english-dictionary.lexicon.key-grammar.jsonl.zip` | Full English lexicon corpus — 9.3 MB compressed, 122 MB unzipped. **Unzip before use:** `unzip english-dictionary.lexicon.key-grammar.jsonl.zip` |
+| `english-dictionary.lexicon.key-grammar.jsonl.zip` | Full English lexicon key corpus — 9.3 MB compressed, 122 MB unzipped. **Unzip before use:** `unzip english-dictionary.lexicon.key-grammar.jsonl.zip`. The original dictionary PDF/JSONL is not required to consume this kit. |
 | `advisor-bootstrap.json` | Advisor delegation seed data (raw) |
 | `advisor-bootstrap.key-grammar.jsonl` | Advisor seeds as key-grammar records |
 | `joke-bootstrap.json` | JOKE humor-frame routing seed data (raw); declares ambiguity permission and pun-bridge policy, not freeform joke authorship. |

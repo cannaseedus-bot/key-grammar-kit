@@ -2,6 +2,12 @@
   "schema": "key.grammar.joke_bootstrap.v1",
   "description": "Authored first-class humor-frame routing bootstrap. Generated AIML is a projection; JOKE-µ and the JOKE track remain authoritative. Like PLAN-µ and ADVISOR-µ, JOKE-µ is a reusable µ-track for all domains that need ambiguity permission, pun bridges, metaphor routing, or punchline-compatible sense collapse; it is not a generic joke-authoring module.",
   "track": "JOKE-µ",
+  "first_class": true,
+  "peers": [
+    "PLAN-µ",
+    "ADVISOR-µ"
+  ],
+  "availability": "all_domains",
   "card": {
     "id": "joke-frame",
     "label": "JOKE frame",
@@ -70,22 +76,16 @@
       "next": "Ch'en"
     },
     {
-      "pattern": "PUN *",
-      "frame": "pun_bridge",
-      "phase": "Yax",
-      "next": "Ch'en"
-    },
-    {
       "pattern": "WIND UP PITCH SWING *",
       "frame": "delivery_frame",
       "phase": "Yax",
       "next": "Ch'en"
+    },
+    {
+      "pattern": "PUN *",
+      "frame": "pun_bridge",
+      "phase": "Yax",
+      "next": "Ch'en"
     }
-  ],
-  "first_class": true,
-  "peers": [
-    "PLAN-µ",
-    "ADVISOR-µ"
-  ],
-  "availability": "all_domains"
+  ]
 }

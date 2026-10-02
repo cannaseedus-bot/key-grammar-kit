@@ -1,0 +1,5 @@
+# Large generated dictionary lexicon stays local; commit the compressed zip instead.
+english-dictionary.lexicon.key-grammar.jsonl
+
+__pycache__/
+*.pyc
